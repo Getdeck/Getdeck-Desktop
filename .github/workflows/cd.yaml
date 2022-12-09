@@ -1,5 +1,5 @@
 name: 'test-on-pr'
-on: [pull_request]
+on: [push]
 
 jobs:
   test-tauri:
