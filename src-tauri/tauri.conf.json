@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "beiboot-cl",
+    "productName": "beiboot-desktop",
     "version": "0.1.0"
   },
   "tauri": {
@@ -40,7 +40,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "io.blueshoe.beiboot-cl",
+      "identifier": "io.blueshoe.beiboot-desktop",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
