@@ -94,4 +94,19 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+  .logo-dark {
+    display: none;
+  }
+  .logo-light {
+    display: block;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-dark {
+    display: block;
+  }
+  .logo-light {
+    display: none;
+  }
 }

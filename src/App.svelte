@@ -23,7 +23,9 @@ function createClusterHandler() {
 }</script>
 
 <div id="app">
-<img src="beiboot-logo.png">
+<img class="logo-light" src="beiboot-logo-light.png">
+<img class="logo-dark" src="beiboot-logo-dark.svg">
+
 
   {#await promise}
     <p>Loading…</p>
