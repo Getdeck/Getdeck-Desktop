@@ -27,7 +27,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: getdeck-desktop
+          name: beiboot-desktop
           path: |
             src-tauri/target/release/bundle/appimage/beiboot-desktop_0.1.0_amd64.AppImage
             src-tauri/target/release/bundle/deb/beiboot-desktop_0.1.0_amd64.deb
