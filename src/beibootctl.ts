@@ -23,6 +23,15 @@ export async function createCluster(name: string) {
   return command.execute();
 }
 
+export async function deleteCluster(name: string) {
+  const command = Command.sidecar("bin/beibootctl", [
+    "cluster",
+    "delete",
+    name,
+  ]);
+  return command.execute();
+}
+
 export async function listCluster() {
   const command = Command.sidecar("bin/beibootctl", ["cluster", "list"]);
   const output = await command.execute();

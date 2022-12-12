@@ -1,19 +1,35 @@
 <script>
-  import { getVersion, createCluster } from "./beibootctl";
+  import { getVersion, createCluster, deleteCluster } from "./beibootctl";
 
   let promise = getVersion();
   let clusterName;
   let handlerPromise;
-  let promiseRunning = false;
+  let createPromiseRunning = false;
+  let deletePromiseRunning = false;
   let error = "";
 
   function createClusterHandler() {
     error = "";
-    promiseRunning = true;
+    createPromiseRunning = true;
     console.log(clusterName);
     if (clusterName) {
       handlerPromise = createCluster(clusterName).then((output) => {
-        promiseRunning = false;
+        createPromiseRunning = false;
+        console.log(output);
+        if (output.code !== 0) {
+          error = output.stderr;
+        }
+      });
+    }
+  }
+
+  function deleteClusterHandler() {
+    error = "";
+    deletePromiseRunning = true;
+    console.log(clusterName);
+    if (clusterName) {
+      handlerPromise = deleteCluster(clusterName).then((output) => {
+        deletePromiseRunning = false;
         console.log(output);
         if (output.code !== 0) {
           error = output.stderr;
@@ -35,17 +51,18 @@
 
   <input bind:value={clusterName} />
 
-  <button on:click={createClusterHandler} disabled={promiseRunning}
+  <button on:click={createClusterHandler} disabled={createPromiseRunning}
     >Create Cluster</button
   >
-  <button on:click={createClusterHandler}>Delete Cluster</button>
+  <button on:click={deleteClusterHandler} disabled={deletePromiseRunning}>Delete Cluster</button>
+
   {#await handlerPromise}
-    <p>Cluster gets created</p>
+    <p>Cluster gets created/deleted</p>
   {:then clusterOutput}
     {#if error}
       <p>{error}</p>
     {:else}
-      <p>Cluster created successfully</p>
+      <p>Cluster created/created successfully</p>
     {/if}
   {/await}
 </div>
