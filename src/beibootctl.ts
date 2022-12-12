@@ -1,7 +1,7 @@
 import { Command } from "@tauri-apps/api/shell";
 
 export async function getVersion() {
-  const command = Command.sidecar("binaries/beibootctl", ["version"]);
+  const command = Command.sidecar("bin/beibootctl", ["version"]);
   const output = await command.execute();
   console.log(output);
   if (output.code == 0) {
@@ -15,7 +15,7 @@ export async function getVersion() {
 export async function createCluster(name: string) {
   console.log("Ich laufe");
   console.log(name);
-  const command = Command.sidecar("binaries/beibootctl", [
+  const command = Command.sidecar("bin/beibootctl", [
     "cluster",
     "create",
     name,
@@ -23,8 +23,17 @@ export async function createCluster(name: string) {
   return command.execute();
 }
 
+export async function deleteCluster(name: string) {
+  const command = Command.sidecar("bin/beibootctl", [
+    "cluster",
+    "delete",
+    name,
+  ]);
+  return command.execute();
+}
+
 export async function listCluster() {
-  const command = Command.sidecar("binaries/beibootctl", ["cluster", "list"]);
+  const command = Command.sidecar("bin/beibootctl", ["cluster", "list"]);
   const output = await command.execute();
   console.log(output);
 }
