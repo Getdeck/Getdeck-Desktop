@@ -1,39 +1,32 @@
 import { Command } from "@tauri-apps/api/shell";
+import { invoke } from "@tauri-apps/api/tauri";
 
 export async function getVersion() {
-  const command = Command.sidecar("bin/beibootctl", ["version"]);
-  const output = await command.execute();
-  console.log(output);
-  if (output.code == 0) {
-    // TODO parse version string
-    return output.stdout;
-  }
-  console.log(output.stderr);
-  return "";
+  return "1.0.0";
 }
 
 export async function createCluster(name: string) {
   console.log("Ich laufe");
   console.log(name);
-  const command = Command.sidecar("bin/beibootctl", [
-    "cluster",
-    "create",
-    name,
-  ]);
-  return command.execute();
+  
+  return "Created cluster " +  name;
 }
 
 export async function deleteCluster(name: string) {
-  const command = Command.sidecar("bin/beibootctl", [
-    "cluster",
-    "delete",
-    name,
-  ]);
-  return command.execute();
+  return "Deleted cluster " +  name;
 }
 
 export async function listCluster() {
-  const command = Command.sidecar("bin/beibootctl", ["cluster", "list"]);
-  const output = await command.execute();
+  const output = "No Beiboots";
   console.log(output);
+}
+
+export async function connectCluster(name: string) {
+  let res = await invoke("connect_beiboot_ghostunnel", { beibootName: name })
+  return res
+}
+
+export async function disconnectCluster(name: string) {
+  let res = await invoke("disconnect_beiboot_ghostunnel", { beibootName: name })
+  return res
 }

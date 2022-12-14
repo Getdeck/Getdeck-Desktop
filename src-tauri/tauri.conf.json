@@ -11,7 +11,9 @@
     "version": "0.1.0"
   },
   "tauri": {
-    "allowlist": {},
+    "allowlist": {
+      "shell": {}
+    },
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
@@ -26,7 +28,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "io.blueshoe.beiboot-desktop",
+      "identifier": "dev.getdeck.beiboot-desktop",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -55,7 +57,7 @@
         "fullscreen": false,
         "height": 800,
         "resizable": false,
-        "title": "Beiboot",
+        "title": "Beiboot Desktop",
         "width": 1200
       }
     ]
