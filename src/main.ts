@@ -1,9 +1,20 @@
-import "./style.css";
+/**
+ * main.ts
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
 
-import App from "./App.svelte";
+// Components
+import App from './App.vue'
 
-const app = new App({
-  target: document.body, //getElementById('app'),
-});
+// Composables
+import { createApp } from 'vue'
 
-export default app;
+// Plugins
+import { registerPlugins } from '@/plugins'
+
+const app = createApp(App)
+
+registerPlugins(app)
+
+app.mount('#app')
