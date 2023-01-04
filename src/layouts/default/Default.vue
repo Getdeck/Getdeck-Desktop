@@ -1,24 +1,31 @@
 <template>
   <v-app>
-        <v-card>
-
-    <v-navigation-drawer
-        v-model="drawer"
-        location="left"
-        permanent
-      >
-          <v-list
-          :items="items"
-        ></v-list>
-        <template v-slot:append>
-            <v-list>
-              <v-list-item title="Settings" value="settings" />
-            </v-list>
-        </template>
-      </v-navigation-drawer>
-    </v-card>
+    <v-app-bar
+      elevation="0"
+      :border="true"
+    ></v-app-bar>
+    <v-card>
+      <v-navigation-drawer
+          location="left"
+          v-mode="drawer"
+          order="2"
+          permanent
+        >
+            <v-list
+            :items="items"
+          ></v-list>
+          <template v-slot:append>
+              <v-list>
+                <v-list-item title="Settings" value="settings" />
+              </v-list>
+          </template>
+        </v-navigation-drawer>
+      </v-card>
 
     <default-view />
+    <v-bottom-navigation order="1" elevation="0" :border="true">
+        
+  </v-bottom-navigation>
   </v-app>
 </template>
 
