@@ -1,5 +1,5 @@
 <template>
-  <Home />
+  <h1>Clusters</h1>
 </template>
 
 <script lang="ts" setup>
