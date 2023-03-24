@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "deploy": "tauri build"
+    "deploy": "tauri build",
+    "generate-client": "openapi --input ./openapi.json --output ./src/client --client axios"
   },
   "devDependencies": {
     "@babel/types": "^7.20.7",
@@ -22,6 +23,7 @@
     "core-js": "^3.8.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
+    "openapi-typescript-codegen": "^0.23.0",
     "pinia": "^2.0.23",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
@@ -36,5 +38,10 @@
     "vue-router": "^4.0.0",
     "vuetify": "^3.0.0",
     "webfontloader": "^1.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.2.5",
+    "keycloak-js": "^21.0.1",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store"
   }
 }

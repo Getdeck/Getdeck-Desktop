@@ -11,7 +11,9 @@
         </router-link>
         <v-spacer></v-spacer>
         <v-btn variant="outlined">GitHub</v-btn>
-        <v-btn class="ml-3" variant="outlined">Login</v-btn>
+        <router-link to="/login">
+            <v-btn class="ml-3" variant="outlined">Login</v-btn>
+        </router-link>
     </v-app-bar>
     <v-card>
       <v-navigation-drawer
@@ -36,7 +38,8 @@
 
     <default-view />
     <v-bottom-navigation order="1" bg-color="secondary" elevation="0" :border="true">
-       <v-btn color="getdeckPrimary"  variant="tonal">Not logged in</v-btn> 
+       <v-btn color="getdeckPrimary" v-if="user" variant="tonal">Hi, {{ user.firstName }}</v-btn> 
+       <v-btn color="getdeckPrimary" v-else variant="tonal">Not logged in</v-btn> 
        <v-spacer></v-spacer>
        <v-btn color="primary" variant="tonal">Engine: Docker</v-btn>
        <v-btn color="primayr" variant="tonal">Not Connected</v-btn>
@@ -45,8 +48,20 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { Store } from "tauri-plugin-store-api";
   import DefaultView from './View.vue'
+
+  const store = new Store(".settings.dat");
+
+  store.get("user").then((res) => console.log(res.value))
+
+  const user = ref(null);
+
+  onMounted(async () => {
+    const storedUser = await store.get("user");
+    user.value = storedUser.value;
+  });
 
   const drawer = ref(true);
   const items = ref([
