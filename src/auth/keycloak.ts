@@ -4,7 +4,7 @@ import { Store } from "tauri-plugin-store-api";
 
 import router from "@/router";
 
-interface Token {
+export interface Token {
     token: string;
     refreshToken: string;
 }

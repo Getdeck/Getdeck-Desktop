@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "outDir": "dist",
     "types": [
       "node",
       "vuetify"
