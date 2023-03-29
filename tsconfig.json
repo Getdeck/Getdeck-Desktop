@@ -1,20 +1,32 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
+    "baseUrl": ".",
+    "target": "esnext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "strict": true,
+    "jsx": "preserve",
+    "sourceMap": false,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
-    "noEmit": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "skipLibCheck": true
+    "lib": ["esnext", "dom"],
+    "outDir": "dist",
+    "types": [
+      "node",
+      "vuetify"
+    ],
+    "paths": {
+      "@/*": ["src/*"]
+    },
   },
-  "include": ["src"],
-  "extends": "@tsconfig/svelte/tsconfig.json"
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "vite.config.ts"
+  ]
 }
