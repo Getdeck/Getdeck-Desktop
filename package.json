@@ -8,8 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "deploy": "tauri build",
-    "generate-client": "openapi --input ./openapi.json --output ./src/client --client axios"
+    "deploy": "tauri build"
   },
   "devDependencies": {
     "@babel/types": "^7.20.7",
@@ -42,6 +41,7 @@
   "dependencies": {
     "axios": "^1.2.5",
     "keycloak-js": "^21.0.1",
-    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store"
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store",
+    "beiboot-client": "^0.0.2"
   }
 }

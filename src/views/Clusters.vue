@@ -26,13 +26,13 @@
 </template>
 
 <script lang="ts" setup>
-import { OpenAPI } from "@/client/index";
+import { OpenAPI, ClustersService } from "beiboot-client";
 
-const client = new OpenAPI({
-    basePath: "https://api.beiboot.unikube.io",
+OpenAPI.BASE = "https://api.beiboot.unikube.io"
+ClustersService.clusterListClustersGet("123").then((response) => {
+    console.log(response)
 })
 
-client.
 
 console.log(clusterList)
 
