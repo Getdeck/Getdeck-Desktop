@@ -42,6 +42,6 @@
     "axios": "^1.2.5",
     "keycloak-js": "^21.0.1",
     "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store",
-    "beiboot-client": "^0.0.2"
+    "beiboot-api-client": "^0.1.0"
   }
 }

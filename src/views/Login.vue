@@ -13,6 +13,7 @@
             v-model="password"
             label="Password"
             outlined
+            type="password"
             dense
             required
         ></v-text-field>
@@ -25,12 +26,14 @@
 import { ref } from 'vue';
 import { Store } from "tauri-plugin-store-api";
 import { getInitialToken } from "@/auth/keycloak";
+import router from "@/router";
 
 const username = ref("");
 const password = ref("");
 
-const login = () => {
-    getInitialToken(username.value, password.value);
+const login = async () => {
+    getInitialToken(username.value, password.value)
+    .catch((err) => console.log(err));
 }
 
 

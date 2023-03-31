@@ -16,7 +16,7 @@
                 <td>
                     <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined">Connect</v-btn>
                     <v-btn class="mb-1 mt-3" min-width="110" variant="outlined">Edit</v-btn> <br>
-                    <v-btn class="mb-3 mr-1" min-width="110" variant="outlined">Delete</v-btn>
+                    <v-btn class="mb-3 mr-1" @click="handleClusterDelete(cluster.name)" min-width="110" variant="outlined">Delete</v-btn>
                     <v-btn class="mb-3" min-width="110" variant="outlined">Shelf</v-btn>
                 </td>
             </tr>
@@ -26,55 +26,19 @@
 </template>
 
 <script lang="ts" setup>
-import { OpenAPI, ClustersService } from "beiboot-client";
+import { ClustersService, ClusterStateResponse } from "beiboot-api-client";
+import { ref } from 'vue';
 
-OpenAPI.BASE = "https://api.beiboot.unikube.io"
-ClustersService.clusterListClustersGet("123").then((response) => {
-    console.log(response)
+const clusterList = ref();
+
+ClustersService.clusterListClustersGet().then((response) => {
+    clusterList.value = response.items;
 })
 
-
-console.log(clusterList)
-
-const clusterListInner = [
-    {
-        name: "myhost-myuser-cluster1",
-        state: "READY",
-        k8sVersion: "1.25.1",
-        nodeCount: 3,
-        nodeCpu: 2,
-        nodeMemoryRequest: "2Gi",
-        nodeMemoryLimit: "4Gi",
-        ports: [
-            {
-                cluster: 80,
-                host: 8080,
-            },
-            {
-                cluster: 443,
-                host: 8443
-            }
-        ]
-    },
-    {
-        name: "myhost-myuser-cluster2",
-        state: "READY",
-        k8sVersion: "1.25.1",
-        nodeCount: 3,
-        nodeCpu: 2,
-        nodeMemoryRequest: "2Gi",
-        nodeMemoryLimit: "4Gi",
-        ports: [
-            {
-                cluster: 80,
-                host: 8080,
-            },
-            {
-                cluster: 443,
-                host: 8443
-            }
-        ]
-    }
-]
+function handleClusterDelete(clusterName: string) {
+    ClustersService.clusterDeleteClustersClusterNameDelete(clusterName).then((response) => {
+        console.log(response);
+    })
+}
 
 </script>

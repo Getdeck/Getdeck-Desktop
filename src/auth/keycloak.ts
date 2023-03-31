@@ -21,6 +21,8 @@ export async function getInitialToken(user: string, password: string): Promise<T
     const token = <Token>{token: res.data.access_token, refreshToken: res.data.refresh_token};
     store.set("token", { value: token  });
     console.log("written token to store")
+    router.push("home");
+    initKeycloak(token);
     return token;
 }
 
@@ -42,7 +44,6 @@ export function initKeycloak(token: Token) {
             keycloak.loadUserProfile().then((profile) => {
                 const store = new Store(".settings.dat");
                 store.set("user", { value: profile });
-                router.push("/home");
             });
         } else {
             console.log("not authenticated");
