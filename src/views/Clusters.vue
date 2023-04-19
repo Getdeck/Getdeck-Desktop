@@ -1,6 +1,16 @@
 <template>
   <v-container class="fill-height">
-    <h1>Clusters</h1>
+    <v-row>
+      <v-col>
+        <h1>Clusters</h1>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col>
+        <router-link to="clusters/create">
+          <v-btn class="" min-width="110" variant="outlined">Create</v-btn>
+        </router-link>
+      </v-col>
+    </v-row>
     <v-table>
         <thead>
             <tr>
@@ -10,13 +20,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="cluster in clusterList" :key="name">
+            <tr v-for="cluster in clusterList" :key="cluster.name">
                 <td>{{ cluster.name }}</td>
                 <td>{{ cluster.state }}</td>
                 <td>
                     <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined">Connect</v-btn>
                     <v-btn class="mb-1 mt-3" min-width="110" variant="outlined">Edit</v-btn> <br>
-                    <v-btn class="mb-3 mr-1" min-width="110" variant="outlined">Delete</v-btn>
+                    <v-btn class="mb-3 mr-1" min-width="110" variant="outlined" @click="clusterDelete(cluster.name)">Delete</v-btn>
                     <v-btn class="mb-3" min-width="110" variant="outlined">Shelf</v-btn>
                 </td>
             </tr>
@@ -26,55 +36,30 @@
 </template>
 
 <script lang="ts" setup>
-import { OpenAPI, ClustersService } from "beiboot-client";
+import { ClusterStateResponse, ClustersService } from "beiboot-api-client";
+import { ref, onMounted } from "vue";
 
-OpenAPI.BASE = "https://api.beiboot.unikube.io"
-ClustersService.clusterListClustersGet("123").then((response) => {
-    console.log(response)
-})
+let clusterList = ref([] as ClusterStateResponse[]);
 
+const getClusterList = () => {
+    ClustersService.clusterListClustersGet().then((res) => {
+        clusterList.value = res.items;
+    });
+};
 
-console.log(clusterList)
+const clusterDelete = (clusterName: string) => {
+    ClustersService.clusterDeleteClustersClusterNameDelete(clusterName).then((res) => {
+        console.log("deletion success ", + res);
+        setTimeout(() => {
+            getClusterList();
+        }, 2000);
+    }).catch((err) => {
+        console.log(err);
+    });
+};
 
-const clusterListInner = [
-    {
-        name: "myhost-myuser-cluster1",
-        state: "READY",
-        k8sVersion: "1.25.1",
-        nodeCount: 3,
-        nodeCpu: 2,
-        nodeMemoryRequest: "2Gi",
-        nodeMemoryLimit: "4Gi",
-        ports: [
-            {
-                cluster: 80,
-                host: 8080,
-            },
-            {
-                cluster: 443,
-                host: 8443
-            }
-        ]
-    },
-    {
-        name: "myhost-myuser-cluster2",
-        state: "READY",
-        k8sVersion: "1.25.1",
-        nodeCount: 3,
-        nodeCpu: 2,
-        nodeMemoryRequest: "2Gi",
-        nodeMemoryLimit: "4Gi",
-        ports: [
-            {
-                cluster: 80,
-                host: 8080,
-            },
-            {
-                cluster: 443,
-                host: 8443
-            }
-        ]
-    }
-]
+onMounted(() => {
+    getClusterList();
+});
 
 </script>
