@@ -1,6 +1,7 @@
 import Keycloak from 'keycloak-js';
 import axios from 'axios';
 import { Store } from "tauri-plugin-store-api";
+import { OpenAPI } from "beiboot-api-client";
 
 import router from "@/router";
 
@@ -30,7 +31,7 @@ let initOptions = {
     clientId: 'beiboot-api'
 }
 
-export function initKeycloak(token: Token) {
+export function initKeycloak(token: Token): Keycloak {
     const keycloak = new Keycloak(initOptions);
     keycloak.init({
         token: token.token,
@@ -39,6 +40,7 @@ export function initKeycloak(token: Token) {
     }).then((authenticated) => {
         if (authenticated) {
             console.log("authenticated");
+            OpenAPI.TOKEN = keycloak.token;
             keycloak.loadUserProfile().then((profile) => {
                 const store = new Store(".settings.dat");
                 store.set("user", { value: profile });
@@ -53,14 +55,17 @@ export function initKeycloak(token: Token) {
     });
 
     setInterval(() => {
-        keycloak.updateToken(70).then((refreshed) => {
+        keycloak.updateToken(0).then((refreshed) => {
+            console.log(refreshed)
             if (refreshed) {
                 console.log('Token refreshed' + refreshed);
+                OpenAPI.TOKEN = keycloak.token;
             } else {
                 console.log('Token not refreshed, still valid.');
             }
         }).catch(() => {
             console.log('Failed to refresh token');
         });
-    }, 60000)
+    }, 6000)
+    return keycloak
 }
