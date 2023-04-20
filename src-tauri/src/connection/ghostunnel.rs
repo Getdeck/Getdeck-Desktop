@@ -2,6 +2,7 @@ use bollard::container::{Config, CreateContainerOptions, StartContainerOptions, 
 use bollard::service::{HostConfig, PortBinding, PortMap, RestartPolicy, RestartPolicyNameEnum};
 use bollard::Docker;
 use std::collections::HashMap;
+use futures_util::TryStreamExt;
 
 use crate::connection::{Connector, PortMapping, TLSFiles};
 
@@ -75,7 +76,7 @@ impl Connector for GhostunnelDocker {
                         }), 
                         None,
                         None
-                    );
+                    ).try_collect::<Vec<_>>().await;
 
                     let ghostunnel_config = Config {
                         image: Some(GHOSTUNNEL_IMAGE),

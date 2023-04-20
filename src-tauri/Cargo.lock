@@ -80,6 +80,7 @@ version = "0.1.0"
 dependencies = [
  "bollard",
  "futures",
+ "futures-util",
  "serde",
  "serde_json",
  "shellexpand",

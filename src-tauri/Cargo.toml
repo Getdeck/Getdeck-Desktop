@@ -24,6 +24,7 @@ bollard = "0.13.0"
 futures = "0.3.25"
 tokio = "1.23.0"
 shellexpand = "3.0.0"
+futures-util = "0.3"
 
 [features]
 # by default Tauri runs in production mode
