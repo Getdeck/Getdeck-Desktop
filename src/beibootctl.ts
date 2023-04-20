@@ -29,8 +29,14 @@ export async function connectCluster(name: string, portMapping: any, ca: string,
     clCert,
     clKey
   })
+  return res
+}
 
-
+export async function writeKubeconfig(name: string, kubeconfig: string) {
+  let res = await invoke("write_kubeconfig", {
+    beibootName: name,
+    kubeconfig
+  })
   return res
 }
 

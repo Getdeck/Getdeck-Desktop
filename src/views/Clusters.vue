@@ -33,12 +33,30 @@
         </tbody>
     </v-table>
   </v-container>
+  <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarInner }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="pink"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
 </template>
 
 <script lang="ts" setup>
 import { ClusterStateResponse, ClustersService, ConnectionsService } from "beiboot-api-client";
-import { connectCluster } from "@/beibootctl";
+import { connectCluster, writeKubeconfig } from "@/beibootctl";
 import { ref, onMounted } from "vue";
+
+let snackbar = ref(false);
+let snackbarInner = ref("");
 
 let clusterList = ref([] as ClusterStateResponse[]);
 
@@ -50,17 +68,23 @@ const getClusterList = () => {
 
 const clusterConnect = (clusterName: string) => {
   ConnectionsService.ghostTunnelConnectionsClusterNameGhostTunnelGet(clusterName).then((res) => {
-    console.log(res);
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
     const clientKey = res.mtls["client.key"];
 
     connectCluster(clusterName, { local_port: 8080, endpoint: "157.90.123.50" }, caCrt, clientCrt, clientKey).then((res) => {
-      console.log("connect success ", + res);
+      console.log("connect success ");
     }).catch((err) => {
       console.log(err);
     });
 
+  }).catch((err) => {
+    console.log(err);
+  });
+
+  ClustersService.clusterKubeconfigClustersClusterNameKubeconfigGet(clusterName).then((res) => {
+    console.log(res);
+    writeKubeconfig(clusterName, res);
   }).catch((err) => {
     console.log(err);
   });

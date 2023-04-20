@@ -15,6 +15,7 @@
             outlined
             dense
             required
+            type="password"
         ></v-text-field>
         <v-btn @click="login">Login</v-btn>
     </v-form>
