@@ -4,6 +4,7 @@
 )]
 
 use beiboot_desktop::connection::{get_connector_context, PortMapping, TLSFiles};
+mod util;
 
 fn main() {
     tauri::Builder::default()
@@ -14,16 +15,12 @@ fn main() {
 }
 
 #[tauri::command]
-fn connect_beiboot_ghostunnel(beiboot_name: String) -> Result<String, String> {
+fn connect_beiboot_ghostunnel(beiboot_name: String, port: PortMapping, ca: &str, cl_cert: &str, cl_key: &str) -> Result<String, String> {
     let connector = get_connector_context(&beiboot_name, "GhostunnelDocker");
-    let port = PortMapping {
-        local_port: 6443,
-        endpoint: "34.88.204.180:31477",
-    };
     let ports = [port];
-    let ca_cert_path = shellexpand::tilde("~/.getdeck/test/mtls/ca.crt").into_owned();
-    let client_cert_path = shellexpand::tilde("~/.getdeck/test/mtls/client.crt").into_owned();
-    let client_key_path = shellexpand::tilde("~/.getdeck/test/mtls/client.key").into_owned();
+    let ca_cert_path = util::write_tls_files(beiboot_name.clone(), ca, "ca.crt").unwrap();
+    let client_cert_path = util::write_tls_files(beiboot_name.clone(), cl_cert, "client.crt").unwrap();
+    let client_key_path = util::write_tls_files(beiboot_name.clone(), cl_key, "client.key").unwrap();
 
     let tls = TLSFiles {
         ca_cert_path: &ca_cert_path,

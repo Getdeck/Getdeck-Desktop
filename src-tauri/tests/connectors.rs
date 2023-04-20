@@ -2,6 +2,7 @@
 mod ghostunnel_docker_tests {
     use beiboot_desktop::connection::{get_connector_context, PortMapping, TLSFiles};
 
+    //FIXME: This test fails after the first run because of a container name conflict.
     #[test]
     fn test_connect_ghostunnel_docker() {
         let connector = get_connector_context("test", "GhostunnelDocker");

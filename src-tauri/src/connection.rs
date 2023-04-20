@@ -1,4 +1,5 @@
 use std::{error::Error, fmt};
+use serde::Deserialize;
 
 pub mod ghostunnel;
 
@@ -58,6 +59,7 @@ impl<'a> ConnectorContext<'a> {
     }
 }
 
+#[derive(Deserialize)]
 pub struct PortMapping<'a> {
     pub local_port: u16,
     pub endpoint: &'a str,

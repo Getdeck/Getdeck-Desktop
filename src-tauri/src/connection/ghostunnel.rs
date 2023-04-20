@@ -75,6 +75,7 @@ impl Connector for GhostunnelDocker {
                         ..Default::default()
                     };
                     
+
                     // This fails if the ghostunnel image isn't present on the machine. To be
                     // fixed.
                     match docker.create_container(options, ghostunnel_config).await {
