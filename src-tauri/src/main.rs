@@ -8,7 +8,7 @@ mod util;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig])    
+        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup])    
         .plugin(tauri_plugin_store::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -52,7 +52,18 @@ fn disconnect_beiboot_ghostunnel(beiboot_name: String) -> Result<String, String>
 #[tauri::command]
 fn write_kubeconfig(beiboot_name: String, kubeconfig: String) -> Result<String, String> {
     match util::write_conf_file(beiboot_name, &kubeconfig, "kubeconfig.yaml") {
-        Ok(_) => Ok("Kubeconfig written successfully".into()),
+        Ok(path) => Ok(path),
+        Err(why) => {
+            println!("{}", why);
+            Err(format!("{}", why).into())
+        }
+    }
+}
+
+#[tauri::command]
+fn cleanup(beiboot_name: String) -> Result<(), String> {
+    match util::cleanup(beiboot_name) {
+        Ok(_) => Ok(()),
         Err(why) => {
             println!("{}", why);
             Err(format!("{}", why).into())

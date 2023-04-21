@@ -27,6 +27,18 @@ pub fn write_conf_file(beiboot_name: String, content: &str, file_type: &str) -> 
     Ok(path.into())
 }
 
+pub fn cleanup(beiboot_name: String) -> Result<(), String> {
+    let dir = format!("/tmp/beiboot/{}", beiboot_name);
+    let dir_result = std::fs::remove_dir_all(&dir);
+    match dir_result {
+        Ok(_) => Ok(()),
+        Err(why) => {
+            println!("{}", why);
+            Err(format!("{}", why).into())
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
@@ -37,5 +49,11 @@ mod tests {
         let result = super::write_conf_file(beiboot_name, &content, &cert_type);
         assert_eq!(result.is_ok(), true);
         assert_eq!(result.unwrap(), "/tmp/beiboot/test/ca.crt".to_string());
+    }
+    #[test]
+    fn test_cleanup() {
+        let beiboot_name = "test".to_string();
+        let result = super::cleanup(beiboot_name);
+        assert_eq!(result.is_ok(), true);
     }
 }

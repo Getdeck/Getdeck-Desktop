@@ -24,12 +24,12 @@ registerPlugins(app)
 
 OpenAPI.BASE = "https://api.beiboot.unikube.io"
 const store = new Store(".settings.dat");
-store.get("token").then((token: any) => {
-    if (token) {
-      initKeycloak(token.value)
-    } else {
-      router.push("/login")
-    }
-})
 
 app.mount('#app')
+store.get("token").then((token: any) => {
+  if (token) {
+    initKeycloak(token.value)
+  } else {
+    router.push("/login")
+  }
+})

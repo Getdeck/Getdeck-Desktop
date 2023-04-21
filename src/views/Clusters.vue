@@ -25,6 +25,7 @@
                 <td>{{ cluster.state }}</td>
                 <td>
                     <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined" @click="clusterConnect(cluster.name)">Connect</v-btn>
+                    <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined" @click="clusterDisconnect(cluster.name)">Disconnect</v-btn>
                     <v-btn class="mb-1 mt-3" min-width="110" variant="outlined">Edit</v-btn> <br>
                     <v-btn class="mb-3 mr-1" min-width="110" variant="outlined" @click="clusterDelete(cluster.name)">Delete</v-btn>
                     <v-btn class="mb-3" min-width="110" variant="outlined">Shelf</v-btn>
@@ -51,9 +52,12 @@
 </template>
 
 <script lang="ts" setup>
+import { connectCluster, disconnectCluster, writeKubeconfig } from "@/beibootctl";
+import { useAppStore } from "@/store/app";
 import { ClusterStateResponse, ClustersService, ConnectionsService } from "beiboot-api-client";
-import { connectCluster, writeKubeconfig } from "@/beibootctl";
 import { ref, onMounted } from "vue";
+
+const store = useAppStore();
 
 let snackbar = ref(false);
 let snackbarInner = ref("");
@@ -67,13 +71,28 @@ const getClusterList = () => {
 };
 
 const clusterConnect = (clusterName: string) => {
-  ConnectionsService.ghostTunnelConnectionsClusterNameGhostTunnelGet(clusterName).then((res) => {
+  ConnectionsService.ghostunnelConnectionsClusterNameGhostunnelGet(clusterName).then((res) => {
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
     const clientKey = res.mtls["client.key"];
+    // TODO adapt to multiple ports
+    // the ghostunel connector only supports one port at the moment.
+    const ports = res.ports ? res.ports[0] : null;
 
-    connectCluster(clusterName, { local_port: 8080, endpoint: "157.90.123.50" }, caCrt, clientCrt, clientKey).then((res) => {
-      console.log("connect success ");
+    connectCluster(clusterName, { local_port: ports?.target, endpoint: ports?.endpoint }, caCrt, clientCrt, clientKey).then((res) => {
+      snackbarInner.value = "Connection established successfully.";
+      snackbar.value = true;
+      ClustersService.clusterKubeconfigClustersClusterNameKubeconfigGet(clusterName).then(async (res) => {
+        const kubeconfigPath = await writeKubeconfig(clusterName, res);
+        snackbarInner.value = "Kubeconfig written to " + kubeconfigPath;
+        snackbar.value = true;
+        store.connection.clusterName = clusterName;
+        store.connection.kubeconfigPath = kubeconfigPath;
+        store.connection.connected = true;
+
+      }).catch((err) => {
+        console.log(err);
+      });
     }).catch((err) => {
       console.log(err);
     });
@@ -82,13 +101,19 @@ const clusterConnect = (clusterName: string) => {
     console.log(err);
   });
 
-  ClustersService.clusterKubeconfigClustersClusterNameKubeconfigGet(clusterName).then((res) => {
-    console.log(res);
-    writeKubeconfig(clusterName, res);
-  }).catch((err) => {
-    console.log(err);
-  });
 
+};
+
+const clusterDisconnect = (clusterName: string) => {
+   disconnectCluster(clusterName).then((res) => {
+      snackbarInner.value = "Connection closed successfully.";
+      snackbar.value = true;
+      store.connection.clusterName = "";
+      store.connection.kubeconfigPath = "";
+      store.connection.connected = false;
+    }).catch((err) => {
+        console.log(err);
+    });
 };
 
 const clusterDelete = (clusterName: string) => {

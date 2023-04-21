@@ -38,11 +38,12 @@
 
     <default-view />
     <v-bottom-navigation order="1" bg-color="secondary" elevation="0" :border="true">
-       <v-btn color="getdeckPrimary" v-if="user" variant="tonal">Hi, {{ user.firstName }}</v-btn> 
-       <v-btn color="getdeckPrimary" v-else variant="tonal">Not logged in</v-btn> 
+       <v-btn color="getdeckPrimary" v-if="user" variant="tonal">Hi, {{ user.firstName }}</v-btn>
+       <v-btn color="getdeckPrimary" v-else variant="tonal">Not logged in</v-btn>
        <v-spacer></v-spacer>
        <v-btn color="primary" variant="tonal">Engine: Docker</v-btn>
-       <v-btn color="primayr" variant="tonal">Not Connected</v-btn>
+       <v-btn color="primayr" v-if="appStore.connection.connected" variant="tonal">Connected to {{ appStore.connection.clusterName }}</v-btn>
+       <v-btn color="primayr" v-else variant="tonal">Not connected</v-btn>
   </v-bottom-navigation>
   </v-app>
 </template>
@@ -51,8 +52,10 @@
   import { ref, onMounted } from 'vue';
   import { Store } from "tauri-plugin-store-api";
   import DefaultView from './View.vue'
+  import { useAppStore } from '@/store/app';
 
   const store = new Store(".settings.dat");
+  const appStore = useAppStore();
 
   store.get("user").then((res) => console.log(res.value))
 
