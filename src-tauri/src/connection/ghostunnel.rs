@@ -2,12 +2,15 @@ use bollard::container::{Config, CreateContainerOptions, StartContainerOptions, 
 use bollard::service::{HostConfig, PortBinding, PortMap, RestartPolicy, RestartPolicyNameEnum};
 use bollard::Docker;
 use std::collections::HashMap;
+use futures_util::TryStreamExt;
 
 use crate::connection::{Connector, PortMapping, TLSFiles};
 
 use super::ConnectError;
 
 pub struct GhostunnelDocker;
+
+static GHOSTUNNEL_IMAGE: &str = "ghostunnel/ghostunnel:v1.7.1";
 
 impl Connector for GhostunnelDocker {
     fn establish(&self, name: &str, ports: &[PortMapping], mtls: &TLSFiles) -> Result<(), ConnectError> {
@@ -66,8 +69,17 @@ impl Connector for GhostunnelDocker {
                         ..Default::default()
                     };
 
+                    let _ghostunnel_image = docker.create_image(
+                        Some(bollard::image::CreateImageOptions {
+                            from_image: GHOSTUNNEL_IMAGE,
+                            ..Default::default()
+                        }), 
+                        None,
+                        None
+                    ).try_collect::<Vec<_>>().await;
+
                     let ghostunnel_config = Config {
-                        image: Some("ghostunnel/ghostunnel:v1.7.1"),
+                        image: Some(GHOSTUNNEL_IMAGE),
                         cmd: Some(cmd),
                         exposed_ports: Some(exposed_ports),
                         host_config: Some(hostconfig),
@@ -75,8 +87,6 @@ impl Connector for GhostunnelDocker {
                         ..Default::default()
                     };
                     
-                    // This fails if the ghostunnel image isn't present on the machine. To be
-                    // fixed.
                     match docker.create_container(options, ghostunnel_config).await {
                         Err(why) => return Err(ConnectError::new(format!("Error creating container: {}", why).as_str())),
                         Ok(_) => (),

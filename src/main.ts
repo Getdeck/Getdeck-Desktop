@@ -14,6 +14,7 @@ import { createApp } from 'vue'
 import { registerPlugins } from '@/plugins'
 
 import { initKeycloak } from '@/auth/keycloak';
+import router from '@/router'
 import { Store } from "tauri-plugin-store-api";
 import { OpenAPI } from "beiboot-api-client";
 
@@ -23,8 +24,12 @@ registerPlugins(app)
 
 OpenAPI.BASE = "https://api.beiboot.unikube.io"
 const store = new Store(".settings.dat");
-store.get("token").then((token: any) => {
-    initKeycloak(token.value)
-})
 
 app.mount('#app')
+store.get("token").then((token: any) => {
+  if (token) {
+    initKeycloak(token.value)
+  } else {
+    router.push("/login")
+  }
+})

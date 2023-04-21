@@ -8,7 +8,7 @@ export async function getVersion() {
 export async function createCluster(name: string) {
   console.log("Ich laufe");
   console.log(name);
-  
+
   return "Created cluster " +  name;
 }
 
@@ -21,8 +21,22 @@ export async function listCluster() {
   console.log(output);
 }
 
-export async function connectCluster(name: string) {
-  let res = await invoke("connect_beiboot_ghostunnel", { beibootName: name })
+export async function connectCluster(name: string, portMapping: any, ca: string, clCert: string, clKey: string) {
+  let res = await invoke("connect_beiboot_ghostunnel", {
+    beibootName: name,
+    port: portMapping,
+    ca,
+    clCert,
+    clKey
+  })
+  return res
+}
+
+export async function writeKubeconfig(name: string, kubeconfig: string) {
+  let res = await invoke("write_kubeconfig", {
+    beibootName: name,
+    kubeconfig
+  })
   return res
 }
 

@@ -80,6 +80,7 @@ version = "0.1.0"
 dependencies = [
  "bollard",
  "futures",
+ "futures-util",
  "serde",
  "serde_json",
  "shellexpand",
@@ -87,6 +88,7 @@ dependencies = [
  "strum_macros",
  "tauri",
  "tauri-build",
+ "tauri-plugin-store",
  "tokio",
 ]
 
@@ -2681,6 +2683,18 @@ dependencies = [
  "syn",
  "tauri-codegen",
  "tauri-utils",
+]
+
+[[package]]
+name = "tauri-plugin-store"
+version = "0.1.0"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=dev#7acf865ffbb82c6d00334926a4527dd5ff3163a4"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "thiserror",
 ]
 
 [[package]]
