@@ -24,7 +24,7 @@ export async function listCluster() {
 export async function connectCluster(name: string, portMapping: any, ca: string, clCert: string, clKey: string) {
   let res = await invoke("connect_beiboot_ghostunnel", {
     beibootName: name,
-    port: portMapping,
+    ports: portMapping,
     ca,
     clCert,
     clKey

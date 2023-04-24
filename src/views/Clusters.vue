@@ -75,11 +75,9 @@ const clusterConnect = (clusterName: string) => {
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
     const clientKey = res.mtls["client.key"];
-    // TODO adapt to multiple ports
-    // the ghostunel connector only supports one port at the moment.
-    const ports = res.ports ? res.ports[0] : null;
+    const ports = res.ports;
 
-    connectCluster(clusterName, { local_port: ports?.target, endpoint: ports?.endpoint }, caCrt, clientCrt, clientKey).then((res) => {
+    connectCluster(clusterName, ports, caCrt, clientCrt, clientKey).then((res) => {
       snackbarInner.value = "Connection established successfully.";
       snackbar.value = true;
       ClustersService.clusterKubeconfigClustersClusterNameKubeconfigGet(clusterName).then(async (res) => {
@@ -91,14 +89,14 @@ const clusterConnect = (clusterName: string) => {
         store.connection.connected = true;
 
       }).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     }).catch((err) => {
-      console.log(err);
+      console.error(err);
     });
 
   }).catch((err) => {
-    console.log(err);
+    console.error(err);
   });
 
 

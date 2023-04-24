@@ -61,7 +61,7 @@ impl<'a> ConnectorContext<'a> {
 
 #[derive(Deserialize)]
 pub struct PortMapping<'a> {
-    pub local_port: u16,
+    pub target: u16,
     pub endpoint: &'a str,
 }
 
