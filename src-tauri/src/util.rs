@@ -42,18 +42,14 @@ pub fn cleanup(beiboot_name: String) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn test_write_tls_files() {
+    fn test_write_cleanup_tls_files() {
         let beiboot_name = "test".to_string();
         let content = "test".to_string();
         let cert_type = "ca.crt".to_string();
-        let result = super::write_conf_file(beiboot_name, &content, &cert_type);
+        let result = super::write_conf_file(beiboot_name.clone(), &content, &cert_type);
         assert_eq!(result.is_ok(), true);
         assert_eq!(result.unwrap(), "/tmp/beiboot/test/ca.crt".to_string());
-    }
-    #[test]
-    fn test_cleanup() {
-        let beiboot_name = "test".to_string();
-        let result = super::cleanup(beiboot_name);
-        assert_eq!(result.is_ok(), true);
+        let cleanup_result = super::cleanup(beiboot_name);
+        assert_eq!(cleanup_result.is_ok(), true);
     }
 }
