@@ -24,6 +24,9 @@ impl Connector for GhostunnelDocker {
                     Ok(docker) => docker,
                 };                
 
+                let version = docker.version().await.unwrap();
+                let platform = format!("linux/{}", version.arch.unwrap());
+
                 for port in ports {
                     let container_name = format!(
                         "getdeck-beiboot-{name}-{local_port}",
@@ -38,6 +41,7 @@ impl Connector for GhostunnelDocker {
                     let cmd: Vec<&str> = fcmd.split(" ").collect();
                     let options = Some(CreateContainerOptions {
                         name: container_name.as_str(),
+                        platform: Some(&platform),
                     });
                     let labels = HashMap::from([
                         ("beiboot.getdeck.dev/name", name)
