@@ -21,7 +21,7 @@ tauri-plugin-store = { git = "https://github.com/tauri-apps/plugins-workspace", 
 strum = "0.24.1"
 strum_macros = "0.24.3"
 bollard = "0.13.0"
-futures = "0.3.25"
+futures = "0.3.28"
 tokio = "1.23.0"
 shellexpand = "3.0.0"
 futures-util = "0.3"
