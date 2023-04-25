@@ -15,9 +15,8 @@ fn main() {
 }
 
 #[tauri::command]
-fn connect_beiboot_ghostunnel(beiboot_name: String, port: PortMapping, ca: &str, cl_cert: &str, cl_key: &str) -> Result<String, String> {
+fn connect_beiboot_ghostunnel(beiboot_name: String, ports: Vec<PortMapping>, ca: &str, cl_cert: &str, cl_key: &str) -> Result<String, String> {
     let connector = get_connector_context(&beiboot_name, "GhostunnelDocker");
-    let ports = [port];
     let ca_cert_path = util::write_conf_file(beiboot_name.clone(), ca, "ca.crt").unwrap();
     let client_cert_path = util::write_conf_file(beiboot_name.clone(), cl_cert, "client.crt").unwrap();
     let client_key_path = util::write_conf_file(beiboot_name.clone(), cl_key, "client.key").unwrap();

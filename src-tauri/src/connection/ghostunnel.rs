@@ -31,11 +31,11 @@ impl Connector for GhostunnelDocker {
                     let container_name = format!(
                         "getdeck-beiboot-{name}-{local_port}",
                         name = name,
-                        local_port = port.local_port
+                        local_port = port.target
                     );
                     let fcmd = format!(
                         "client --listen 0.0.0.0:{local_port} --unsafe-listen --target {endpoint} --cert /crt/client.crt --key /crt/client.key --cacert /crt/ca.crt",
-                        local_port = port.local_port,
+                        local_port = port.target,
                         endpoint = port.endpoint
                     );
                     let cmd: Vec<&str> = fcmd.split(" ").collect();
@@ -47,7 +47,7 @@ impl Connector for GhostunnelDocker {
                         ("beiboot.getdeck.dev/name", name)
                     ]);
 
-                    let iport = port.local_port.to_string();
+                    let iport = port.target.to_string();
                     let exposed_ports = HashMap::from(
                             [(iport.as_str(), HashMap::from([]))]
                         );
@@ -98,7 +98,7 @@ impl Connector for GhostunnelDocker {
 
                     println!(
                         "Creating forwarding from {} to {}",
-                        port.local_port, port.endpoint
+                        port.target, port.endpoint
                     );
                     println!(
                         "with CA {}, Client {}, Key {}",
