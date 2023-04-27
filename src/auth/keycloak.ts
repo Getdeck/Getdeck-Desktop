@@ -4,6 +4,7 @@ import { Store } from "tauri-plugin-store-api";
 import { OpenAPI } from "beiboot-api-client";
 
 import router from "@/router";
+import { useAppStore } from "@/store/app";
 
 export interface Token {
     token: string;
@@ -22,7 +23,7 @@ export async function getInitialToken(user: string, password: string): Promise<T
     const token = <Token>{token: res.data.access_token, refreshToken: res.data.refresh_token};
     store.set("token", { value: token  });
     console.log("written token to store")
-    router.push("/home");
+    router.push("/clusters");
     return token;
 }
 
@@ -44,8 +45,11 @@ export function initKeycloak(token: Token): Keycloak {
             OpenAPI.TOKEN = keycloak.token;
             keycloak.loadUserProfile().then((profile) => {
                 const store = new Store(".settings.dat");
+                const appStore = useAppStore();
+                appStore.auth.authenticated = true;
+                appStore.auth.user = profile.firstName || "";
                 store.set("user", { value: profile });
-                router.push("/home");
+                router.push("/clusters");
             });
         } else {
             console.log("not authenticated");

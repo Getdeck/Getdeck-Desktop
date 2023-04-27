@@ -11,8 +11,11 @@
         </router-link>
         <v-spacer></v-spacer>
         <v-btn variant="outlined">GitHub</v-btn>
-        <router-link to="/login">
-            <v-btn class="ml-3" variant="outlined">Login</v-btn>
+        <router-link to="/login" class="router-link-btn" v-if="!appStore.auth.authenticated">
+          <v-btn class="ml-3" variant="outlined"> Login</v-btn>
+        </router-link>
+        <router-link to="/logout" class="router-link-btn" v-if="appStore.auth.authenticated">
+          <v-btn class="ml-3" variant="outlined"> Logout</v-btn>
         </router-link>
     </v-app-bar>
     <v-card>
@@ -25,7 +28,7 @@
             <v-list
           >
           <v-list-item v-for="item in items" :key="item.title">
-          <router-link :to="item.value">{{ item.title }}</router-link>
+          <router-link class="navigation-drawer router-link-btn" :to="item.value">{{ item.title }}</router-link>
           </v-list-item>
           </v-list>
           <template v-slot:append>
