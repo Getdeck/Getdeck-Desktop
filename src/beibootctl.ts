@@ -32,8 +32,8 @@ export async function connectCluster(name: string, portMapping: any, ca: string,
   return res
 }
 
-export async function writeKubeconfig(name: string, kubeconfig: string) {
-  let res = await invoke("write_kubeconfig", {
+export async function writeKubeconfig(name: string, kubeconfig: string): Promise<string> {
+  let res: string = await invoke("write_kubeconfig", {
     beibootName: name,
     kubeconfig
   })

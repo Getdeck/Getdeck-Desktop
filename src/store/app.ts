@@ -8,6 +8,10 @@ export const useAppStore = defineStore('appStore', {
         clusterName: "",
         kubeconfigPath: "",
         connected: false,
+      },
+      auth: {
+        authenticated: false,
+        user: "",
       }
     }
   },
