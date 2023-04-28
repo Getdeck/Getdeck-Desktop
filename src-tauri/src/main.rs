@@ -31,7 +31,7 @@ fn connect_beiboot_ghostunnel(beiboot_name: String, ports: Vec<PortMapping>, ca:
         Ok(_) => Ok("Cluster connected successfully".into()),
         Err(why) => {
             println!("{}", why);
-            Err(format!("{}", why).into())
+            Err(format!("{}", why))
         }
     }
 }
@@ -43,7 +43,7 @@ fn disconnect_beiboot_ghostunnel(beiboot_name: String) -> Result<String, String>
         Ok(_) => Ok("Cluster disconnected successfully".into()),
         Err(why) => {
             println!("{}", why);
-            Err(format!("{}", why).into())
+            Err(format!("{}", why))
         }
     }
 }
@@ -54,7 +54,7 @@ fn write_kubeconfig(beiboot_name: String, kubeconfig: String) -> Result<String, 
         Ok(path) => Ok(path),
         Err(why) => {
             println!("{}", why);
-            Err(format!("{}", why).into())
+            Err(why)
         }
     }
 }
@@ -65,7 +65,7 @@ fn cleanup(beiboot_name: String) -> Result<(), String> {
         Ok(_) => Ok(()),
         Err(why) => {
             println!("{}", why);
-            Err(format!("{}", why).into())
+            Err(why)
         }
     }
 }

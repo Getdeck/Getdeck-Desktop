@@ -49,13 +49,13 @@ impl<'a> ConnectorContext<'a> {
         println!("Connecting to Beiboot {}", self.name);
         let result = self.connector.establish(self.name, ports, mtls);
         println!("Connection to Beiboot {} established", self.name);
-        return result;
+        result
     }
     pub fn disconnect(&self) -> Result<(), ConnectError> {
         println!("Disconnect preamble");
         let result = self.connector.terminate(self.name);
         println!("Disconnect postamble");
-        return result;
+        result
     }
 }
 
