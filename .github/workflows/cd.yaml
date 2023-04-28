@@ -11,6 +11,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+      - name: Create dist dir
+        run: mkdir dist
       - name: setup node
         uses: actions/setup-node@v3
         with:
@@ -22,13 +24,18 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
-      - name: install app dependencies and build it
-        run: npm install && npm run deploy
+      - name: Lint
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --manifest-path ./src-tauri/Cargo.toml
       - name: Execute tests
         uses: actions-rs/cargo@v1
         with:
           command: test
           args: --manifest-path ./src-tauri/Cargo.toml
+      - name: install app dependencies and build it
+        run: npm install && npm run deploy
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:

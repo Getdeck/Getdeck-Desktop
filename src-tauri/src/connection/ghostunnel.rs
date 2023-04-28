@@ -38,7 +38,7 @@ impl Connector for GhostunnelDocker {
                         local_port = port.target,
                         endpoint = port.endpoint
                     );
-                    let cmd: Vec<&str> = fcmd.split(" ").collect();
+                    let cmd: Vec<&str> = fcmd.split(' ').collect();
                     let options = Some(CreateContainerOptions {
                         name: container_name.as_str(),
                         platform: Some(&platform),
@@ -91,10 +91,9 @@ impl Connector for GhostunnelDocker {
                         ..Default::default()
                     };
                     
-                    match docker.create_container(options, ghostunnel_config).await {
-                        Err(why) => return Err(ConnectError::new(format!("Error creating container: {}", why).as_str())),
-                        Ok(_) => (),
-                    };
+                    if let Err(why) = docker.create_container(options, ghostunnel_config).await {
+                        return Err(ConnectError::new(format!("Error creating container: {}", why).as_str())) 
+                    }
 
                     println!(
                         "Creating forwarding from {} to {}",
@@ -137,7 +136,7 @@ impl Connector for GhostunnelDocker {
                 ]);
 
                 let options = Some(ListContainersOptions{
-                    filters: filters,
+                    filters,
                     ..Default::default()
                 });
 
