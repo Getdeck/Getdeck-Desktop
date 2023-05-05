@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <h1>Login</h1>
     <v-form>
         <v-text-field
@@ -17,7 +17,7 @@
             required
             type="password"
         ></v-text-field>
-        <v-btn @click="login">Login</v-btn>
+        <v-btn @click="login" variant="flat" color="secondary">Login</v-btn>
     </v-form>
   </v-container>
 </template>
