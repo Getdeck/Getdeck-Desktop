@@ -23,7 +23,7 @@
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "openapi-typescript-codegen": "^0.23.0",
-    "pinia": "^2.0.23",
+    "pinia": "^2.0.35",
     "prettier": "^2.8.1",
     "prettier-plugin-svelte": "^2.9.0",
     "roboto-fontface": "*",
