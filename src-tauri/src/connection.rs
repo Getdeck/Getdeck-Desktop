@@ -1,4 +1,5 @@
 use std::{error::Error, fmt};
+use bollard::models::ContainerSummary;
 use serde::Deserialize;
 
 pub mod ghostunnel;
@@ -57,6 +58,10 @@ impl<'a> ConnectorContext<'a> {
         println!("Disconnect postamble");
         result
     }
+    pub fn check_running(&self) -> Result<Vec<ContainerSummary>, ConnectError> {
+        let result = self.connector.check_running(self.name);
+        result
+    }
 }
 
 #[derive(Deserialize)]
@@ -78,5 +83,6 @@ pub trait Connector {
         ports: &[PortMapping],
         mtls: &TLSFiles,
     ) -> Result<(), ConnectError>;
+    fn check_running(&self, name: &str) -> Result<Vec<ContainerSummary>, ConnectError>;
     fn terminate(&self, name: &str) -> Result<(), ConnectError>;
 }

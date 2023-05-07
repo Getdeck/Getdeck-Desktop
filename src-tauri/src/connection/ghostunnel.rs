@@ -1,6 +1,7 @@
 use bollard::container::{Config, CreateContainerOptions, StartContainerOptions, ListContainersOptions, RemoveContainerOptions};
 use bollard::service::{HostConfig, PortBinding, PortMap, RestartPolicy, RestartPolicyNameEnum};
 use bollard::Docker;
+use bollard::models::ContainerSummary;
 use std::collections::HashMap;
 use futures_util::TryStreamExt;
 
@@ -166,5 +167,35 @@ impl Connector for GhostunnelDocker {
                 Ok(())
             })
 
+    }
+
+    fn check_running(&self, name: &str) -> Result<Vec<ContainerSummary>, ConnectError> {
+        tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(async move {
+                let docker = match Docker::connect_with_socket_defaults() {
+                    Err(why) => return Err(ConnectError::new(format!("Docker error: {}", why).as_str())),
+                    Ok(docker) => docker,
+                };
+
+                let name_label = format!("beiboot.getdeck.dev/name={name}", name=name);
+
+                let filters = HashMap::from([
+                    ("label", vec![name_label.as_str()])
+                ]);
+
+                let options = Some(ListContainersOptions{
+                    filters,
+                    ..Default::default()
+                });
+
+                let rcontainers = docker.list_containers(options).await;
+                let containers = match rcontainers {
+                    Ok(containers) => return Ok(containers),
+                    Err(why) => return Err(ConnectError::new(format!("Could not find containers: {}", why).as_str())),
+                };
+            })
     }
 }
