@@ -58,8 +58,8 @@ impl<'a> ConnectorContext<'a> {
         result
     }
     pub fn check_running(&self) -> Result<Vec<String>, ConnectError> {
-        let result = self.connector.check_running();
-        result
+        
+        self.connector.check_running()
     }
 }
 

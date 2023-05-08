@@ -49,7 +49,7 @@ mod ghostunnel_docker_tests {
     #[test]
     fn test_b_check_running() {
         let connector = get_connector_context("test", "GhostunnelDocker");
-        let res = match connector.check_running() {
+        let _res = match connector.check_running() {
             Ok(container_summary) => {
                 println!("{:?}", container_summary);
                 0

@@ -1,7 +1,7 @@
 use bollard::container::{Config, CreateContainerOptions, StartContainerOptions, ListContainersOptions, RemoveContainerOptions};
 use bollard::service::{HostConfig, PortBinding, PortMap, RestartPolicy, RestartPolicyNameEnum};
 use bollard::Docker;
-use bollard::models::ContainerSummary;
+
 use std::collections::HashMap;
 use futures_util::TryStreamExt;
 
@@ -180,7 +180,7 @@ impl Connector for GhostunnelDocker {
                     Ok(docker) => docker,
                 };
 
-                let name_label = format!("beiboot.getdeck.dev/name");
+                let name_label = "beiboot.getdeck.dev/name".to_string();
 
                 let filters = HashMap::from([
                     ("label", vec![name_label.as_str()])
@@ -202,10 +202,10 @@ impl Connector for GhostunnelDocker {
                                 Some(name) => result.push(name.to_string()),
                             }
                         }
-                        return Ok(result)
+                        Ok(result)
                     },
                     Err(why) => return Err(ConnectError::new(format!("Could not find containers: {}", why).as_str())),
-                };
+                }
             })
     }
 }
