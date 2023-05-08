@@ -169,7 +169,7 @@ impl Connector for GhostunnelDocker {
 
     }
 
-    fn check_running(&self, name: &str) -> Result<Vec<ContainerSummary>, ConnectError> {
+    fn check_running(&self) -> Result<Vec<String>, ConnectError> {
         tokio::runtime::Builder::new_multi_thread()
             .enable_all()
             .build()
@@ -180,7 +180,7 @@ impl Connector for GhostunnelDocker {
                     Ok(docker) => docker,
                 };
 
-                let name_label = format!("beiboot.getdeck.dev/name={name}", name=name);
+                let name_label = format!("beiboot.getdeck.dev/name");
 
                 let filters = HashMap::from([
                     ("label", vec![name_label.as_str()])
@@ -191,9 +191,19 @@ impl Connector for GhostunnelDocker {
                     ..Default::default()
                 });
 
+                let mut result = vec![];
+
                 let rcontainers = docker.list_containers(options).await;
-                let containers = match rcontainers {
-                    Ok(containers) => return Ok(containers),
+                match rcontainers {
+                    Ok(containers) => {
+                        for container in &containers {
+                            match &container.labels.clone().expect("Could not get labels.").get("beiboot.getdeck.dev/name") {
+                                None => return Err(ConnectError::new(format!("Could not find containers: {}", "No name label").as_str())),
+                                Some(name) => result.push(name.to_string()),
+                            }
+                        }
+                        return Ok(result)
+                    },
                     Err(why) => return Err(ConnectError::new(format!("Could not find containers: {}", why).as_str())),
                 };
             })

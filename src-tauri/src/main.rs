@@ -27,7 +27,7 @@ fn main() {
     context.config_mut().build.dist_dir = AppUrl::Url(window_url.clone());
 
     builder = builder
-        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server])
+        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server, check_running_connects])
         .plugin(tauri_plugin_localhost::Builder::new(port).build())
         .plugin(tauri_plugin_store::Builder::default().build())
         .setup(move |app| {
@@ -122,6 +122,18 @@ fn cleanup(beiboot_name: String) -> Result<(), String> {
         Err(why) => {
             println!("{}", why);
             Err(why)
+        }
+    }
+}
+
+#[tauri::command]
+fn check_running_connects() -> Result<Vec<String>, String> {
+    let connector = get_connector_context("any", "GhostunnelDocker");
+    match connector.check_running() {
+        Ok(running) => Ok(running),
+        Err(why) => {
+            println!("{}", why);
+            Err(format!("{}", why))
         }
     }
 }
