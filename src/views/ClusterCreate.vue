@@ -25,7 +25,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn class="mb-1 mt-3" min-width="110" variant="outlined" @click="createCluster">Create</v-btn>
+        <v-btn class="mb-1 mt-3" min-width="110" variant="flat" color="secondary" @click="createCluster">Create</v-btn>
       </v-col>
     </v-row>
   </v-container>

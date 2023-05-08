@@ -5,10 +5,17 @@
  */
 
 // https://next.vuetifyjs.com/features/sass-variables/`
-// @use 'vuetify' with (
-//   $color-pack: false
-// );
+@use 'vuetify/settings' with (
+    $button-text-transform: none,
+    $list-item-icon-margin-end: 15px,
+);
+.v-theme--light {
+    --v-medium-emphasis-opacity: 1;
+}
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
 
 .router-link-btn {
     color: currentcolor;

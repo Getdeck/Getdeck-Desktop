@@ -1,13 +1,14 @@
 <template>
-  <v-container class="fill-height">
+  <v-container>
     <v-row>
       <v-col>
         <h1>Clusters</h1>
       </v-col>
-      <v-spacer></v-spacer>
-      <v-col>
+      <v-col class="text-end">
         <router-link to="clusters/create" class="router-link-btn">
-          <v-btn class="" min-width="110" variant="outlined">Create</v-btn>
+          <v-btn prepend-icon="mdi-plus" min-width="110" variant="flat" color="secondary">
+            Create Cluster
+          </v-btn>
         </router-link>
       </v-col>
     </v-row>

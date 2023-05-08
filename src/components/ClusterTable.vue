@@ -10,13 +10,38 @@
         <tbody>
             <tr v-for="cluster in clusterList" :key="cluster.name">
                 <td>{{ cluster.name }}</td>
-                <td>{{ cluster.state }}</td>
                 <td>
-                    <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined" @click="clusterConnect(cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'">Connect</v-btn>
-                    <v-btn class="mb-1 mt-3 mr-1" min-width="110" variant="outlined" @click="clusterDisconnect(cluster.name)" v-if="store.connection.clusterName === cluster.name">Disconnect</v-btn>
-                    <v-btn class="mb-1 mt-3" min-width="110" variant="outlined">Edit</v-btn> <br>
-                    <v-btn class="mb-3 mr-1" min-width="110" variant="outlined" @click="clusterDelete(cluster.name)">Delete</v-btn>
-                    <v-btn class="mb-3" min-width="110" variant="outlined">Shelf</v-btn>
+                    <v-chip :color="getChipColor(cluster.state)" class="mt-1">
+                        <v-icon start :icon="getIcon(cluster.state)"></v-icon>
+                        {{ cluster.state }}
+                    </v-chip>
+                </td>
+                <td>
+                    <v-tooltip text="Connect">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
+                    </template>
+                    </v-tooltip>
+                    <v-tooltip text="Disconnect">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.name)" v-if="store.connection.clusterName === cluster.name"></v-btn>
+                    </template>
+                    </v-tooltip>
+                    <v-tooltip text="Edit">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-pencil"></v-btn>
+                    </template>
+                    </v-tooltip>
+                    <v-tooltip text="Delete">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-delete" @click="clusterDelete(cluster.name)"></v-btn>
+                    </template>
+                    </v-tooltip>
+                    <v-tooltip text="Shelf">
+                    <template v-slot:activator="{ props }">
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-bookshelf"></v-btn>
+                    </template>
+                    </v-tooltip>
                 </td>
             </tr>
         </tbody>
@@ -34,6 +59,36 @@ const store = useAppStore();
 const emit = defineEmits(["connected"]);
 
 let clusterList = ref([] as ClusterStateResponse[]);
+
+const getIcon = (state: string) => {
+    switch (state) {
+        case "READY":
+            return "mdi-check";
+        case "REQUESTED":
+            return "mdi-clock";
+        case "RUNNING":
+            return "mdi-clock";
+        case "PENDING":
+            return "mdi-clock";
+        default:
+            return "mdi-alert";
+    }
+};
+
+const getChipColor = (state: string) => {
+    switch (state) {
+        case "READY":
+            return "success";
+        case "REQUESTED":
+            return "warning";
+        case "RUNNING":
+            return "warning";
+        case "PENDING":
+            return "warning";
+        default:
+            return "grey";
+    }
+};
 
 const getClusterList = () => {
     ClustersService.clusterListClustersGet().then((res) => {
