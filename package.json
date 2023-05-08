@@ -35,7 +35,7 @@
     "vite-plugin-vuetify": "^1.0.0-alpha.12",
     "vue": "^3.2.13",
     "vue-router": "^4.0.0",
-    "vuetify": "^3.2.2",
+    "vuetify": "3.0.7",
     "webfontloader": "^1.0.0"
   },
   "dependencies": {
