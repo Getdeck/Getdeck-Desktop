@@ -11,7 +11,7 @@
         >
         <v-list>
           <v-list-item>
-            <v-img src="logo.svg" width="200" class="mb-5"></v-img>
+            <v-img src="/logo.svg" width="200" class="mb-5"></v-img>
           </v-list-item>
           <v-list-item v-for="item in items" :key="item.title" class="ml-1" :to="item.value" :active="false">
             <template v-slot:prepend>
