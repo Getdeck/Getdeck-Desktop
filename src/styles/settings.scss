@@ -8,6 +8,7 @@
 @use 'vuetify/settings' with (
     $button-text-transform: none,
     $list-item-icon-margin-end: 15px,
+    $tooltip-background-color: rgba(var(--v-theme-surface-variant), .9),
 );
 .v-theme--light {
     --v-medium-emphasis-opacity: 1;

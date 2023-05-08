@@ -7,12 +7,14 @@
             label="Username"
             outlined
             dense
+            :spellcheck="false"
             required
         ></v-text-field>
         <v-text-field
             v-model="password"
             label="Password"
             outlined
+            :spellcheck="false"
             dense
             required
             type="password"

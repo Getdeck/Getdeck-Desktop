@@ -17,6 +17,10 @@ export default createVuetify({
     global: {
       ripple: false,
     },
+    VTooltip: {
+      location: "bottom",
+      offset: "2"
+    }
   },
   theme: {
     themes: {
