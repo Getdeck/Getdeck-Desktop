@@ -10,6 +10,14 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup])    
         .plugin(tauri_plugin_store::Builder::default().build())
+        .on_window_event(|event| {
+            match event.event() {
+                tauri::WindowEvent::CloseRequested { .. } => {
+                    get_connector_context("", "GhostunnelDocker").disconnect().unwrap();
+                }
+                _ => {}
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
