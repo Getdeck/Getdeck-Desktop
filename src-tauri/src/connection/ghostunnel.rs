@@ -129,7 +129,8 @@ impl Connector for GhostunnelDocker {
                 }; 
 
 
-                let name_label = format!("beiboot.getdeck.dev/name={name}", name=name);
+                let name_label = if name == "" { format!("beiboot.getdeck.dev/name") } else { format!("beiboot.getdeck.dev/name={name}", name=name) };
+
 
                 let filters = HashMap::from([
                     ("label", vec![name_label.as_str()])
