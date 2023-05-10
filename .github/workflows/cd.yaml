@@ -2,13 +2,11 @@ name: "test-on-pr"
 on: [push]
 
 jobs:
-  test-tauri:
+  test:
     strategy:
       fail-fast: false
-      matrix:
-        platform: [ubuntu-20.04] # TODO add all platforms
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
       - name: Create dist dir
@@ -19,8 +17,7 @@ jobs:
           node-version: 16
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
-      - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-20.04'
+      - name: install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
@@ -34,13 +31,36 @@ jobs:
         with:
           command: test
           args: --manifest-path ./src-tauri/Cargo.toml
+
+  build:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ubuntu-20.04, windows-2022, macos-latest] # TODO add all platforms
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
       - name: install app dependencies and build it
         run: npm install && npm run deploy
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: beiboot-desktop
+          name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}
           path: |
-            src-tauri/target/release/bundle/appimage/beiboot-desktop_0.1.0_amd64.AppImage
-            src-tauri/target/release/bundle/deb/beiboot-desktop_0.1.0_amd64.deb
+            src-tauri/target/release/bundle/
           retention-days: 5
+
