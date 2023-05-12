@@ -20,6 +20,9 @@ export default createVuetify({
     VTooltip: {
       location: "bottom",
       offset: "2"
+    },
+    VTextField: {
+      variant: "outlined",
     }
   },
   theme: {

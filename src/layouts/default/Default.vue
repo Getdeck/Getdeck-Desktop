@@ -6,6 +6,7 @@
           v-mode="drawer"
           order="2"
           permanent
+          :border="0"
           color="#f3f3f3"
           width="250"
         >
