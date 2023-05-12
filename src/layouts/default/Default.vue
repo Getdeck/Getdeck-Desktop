@@ -39,18 +39,18 @@
     <v-bottom-navigation order="1" bg-color="secondary" elevation="0" :border="true">
       <v-menu
       v-if="user"
-      open-on-hover
     >
       <template v-slot:activator="{ props }">
         <v-btn
           color="getdeckPrimary"
+          class="ml-3"
           v-bind="props"
         >
         Hi, {{ user.firstName }}
         </v-btn>
       </template>
 
-      <v-list>
+      <v-list bg-color="secondary">
         <v-list-item @click="logout">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>

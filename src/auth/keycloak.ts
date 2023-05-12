@@ -23,6 +23,7 @@ export async function getInitialToken(user: string, password: string): Promise<T
     const token = <Token>{token: res.data.access_token, refreshToken: res.data.refresh_token};
     store.set("token", { value: token  });
     OpenAPI.TOKEN = token.token;
+    initKeycloak(token);
     router.push("/clusters");
     return token;
 }
@@ -35,6 +36,8 @@ let initOptions = {
 
 export function initKeycloak(token: Token): Keycloak {
     const keycloak = new Keycloak(initOptions);
+    const appStore = useAppStore();
+    appStore.auth.keycloak = keycloak;
     keycloak.init({
         token: token.token,
         refreshToken: token.refreshToken,
@@ -45,7 +48,6 @@ export function initKeycloak(token: Token): Keycloak {
             OpenAPI.TOKEN = keycloak.token;
             keycloak.loadUserProfile().then((profile) => {
                 const store = new Store(".settings.dat");
-                const appStore = useAppStore();
                 appStore.auth.authenticated = true;
                 appStore.auth.user = profile.firstName || "";
                 store.set("user", { value: profile });

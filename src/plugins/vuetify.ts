@@ -23,6 +23,7 @@ export default createVuetify({
     },
     VTextField: {
       variant: "outlined",
+      density: "compact"
     }
   },
   theme: {

@@ -20,11 +20,13 @@ export const useAppStore = defineStore('appStore', {
   },
   actions: {
     logout() {
+      console.log(123);
       const store = new Store(".settings.dat");
       store.set("token", "");
       this.auth.authenticated = false;
       this.auth.user = "";
       if (this.auth.keycloak) {
+        console.log(321);
         this.auth.keycloak.logout({redirectUri: 'http://localhost:5173/login'})
       }
     }
