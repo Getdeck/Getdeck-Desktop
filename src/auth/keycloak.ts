@@ -22,7 +22,7 @@ export async function getInitialToken(user: string, password: string): Promise<T
     const res = await axios.post('https://login.beiboot.unikube.io/auth/realms/getdeck-beiboot/protocol/openid-connect/token', params);
     const token = <Token>{token: res.data.access_token, refreshToken: res.data.refresh_token};
     store.set("token", { value: token  });
-    console.log("written token to store")
+    OpenAPI.TOKEN = token.token;
     router.push("/clusters");
     return token;
 }
@@ -61,15 +61,15 @@ export function initKeycloak(token: Token): Keycloak {
 
     setInterval(() => {
         keycloak.updateToken(0).then((refreshed) => {
-            console.log(refreshed)
+            console.debug(refreshed)
             if (refreshed) {
-                console.log('Token refreshed' + refreshed);
+                console.debug('Token refreshed' + refreshed);
                 OpenAPI.TOKEN = keycloak.token;
             } else {
-                console.log('Token not refreshed, still valid.');
+                console.debug('Token not refreshed, still valid.');
             }
         }).catch(() => {
-            console.log('Failed to refresh token');
+            console.debug('Failed to refresh token');
         });
     }, 6000)
     return keycloak

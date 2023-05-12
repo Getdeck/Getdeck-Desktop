@@ -1,7 +1,8 @@
 <template>
   <v-container>
-    <h1>Login</h1>
-    <v-form class="mt-4">
+    <v-img src="/logo.svg" width="200" class="mb-5"></v-img>
+    <h2>Login</h2>
+    <v-form class="mt-6">
       <v-row>
         <v-col cols="5">
           <v-text-field v-model="username" label="Username" outlined dense :spellcheck="false" required></v-text-field>

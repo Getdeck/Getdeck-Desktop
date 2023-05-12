@@ -29,13 +29,20 @@ const routes = [
                 // which is lazy-loaded when the route is visited.
                 component: () => import(/* webpackChunkName: "home" */ '@/views/ClusterCreate.vue'),
             },
+        ],
+    },
+    {
+        path: '/login',
+        component: () => import('@/layouts/default/NoSidebar.vue'),
+        children: [
+
             {
-                path: '/login',
+                path: '',
                 name: 'Login',
                 component: () => import('@/views/Login.vue'),
             },
-        ],
-    },
+        ]
+    }
 ];
 const router = createRouter({
     history: createWebHistory(),
