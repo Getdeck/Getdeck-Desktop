@@ -6,7 +6,7 @@
       </v-col>
       <v-col class="text-end">
         <router-link to="clusters/create" class="router-link-btn">
-          <v-btn prepend-icon="mdi-plus" min-width="110" variant="flat" color="secondary">
+          <v-btn append-icon="mdi-plus-circle-outline" min-width="110" variant="flat" color="secondary">
             Create Cluster
           </v-btn>
         </router-link>

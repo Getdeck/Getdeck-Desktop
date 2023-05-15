@@ -17,6 +17,7 @@ import { initKeycloak } from '@/auth/keycloak';
 import router from '@/router'
 import { Store } from "tauri-plugin-store-api";
 import { OpenAPI } from "beiboot-api-client";
+import { useAppStore } from './store/app';
 
 const app = createApp(App)
 
@@ -28,7 +29,9 @@ const store = new Store(".settings.dat");
 app.mount('#app')
 store.get("token").then((token: any) => {
   if (token) {
-    initKeycloak(token.value)
+    const keycloak = initKeycloak(token.value);
+    const appStore = useAppStore();
+    appStore.auth.keycloak = keycloak;
   } else {
     router.push("/login")
   }

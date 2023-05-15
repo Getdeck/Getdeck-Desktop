@@ -11,6 +11,7 @@
           outlined
           dense
           required
+          :spellcheck="false"
         ></v-text-field>
       </v-col>
       <v-col>

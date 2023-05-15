@@ -17,6 +17,14 @@ export default createVuetify({
     global: {
       ripple: false,
     },
+    VTooltip: {
+      location: "bottom",
+      offset: "2"
+    },
+    VTextField: {
+      variant: "outlined",
+      density: "compact"
+    }
   },
   theme: {
     themes: {

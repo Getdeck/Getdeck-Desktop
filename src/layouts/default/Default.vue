@@ -6,6 +6,7 @@
           v-mode="drawer"
           order="2"
           permanent
+          :border="0"
           color="#f3f3f3"
           width="250"
         >
@@ -32,28 +33,26 @@
         </v-navigation-drawer>
       </v-card>
 
-    <default-view />
+      <v-main>
+        <router-view />
+      </v-main>
     <v-bottom-navigation order="1" bg-color="secondary" elevation="0" :border="true">
       <v-menu
       v-if="user"
-      open-on-hover
     >
       <template v-slot:activator="{ props }">
         <v-btn
           color="getdeckPrimary"
+          class="ml-3"
           v-bind="props"
         >
         Hi, {{ user.firstName }}
         </v-btn>
       </template>
 
-      <v-list>
-        <v-list-item
-          v-for="(item, index) in accountItems"
-          :key="index"
-          :to="item.value"
-        >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+      <v-list bg-color="secondary">
+        <v-list-item @click="logout">
+          <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -69,12 +68,12 @@
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
   import { Store } from "tauri-plugin-store-api";
-  import DefaultView from './View.vue'
   import { useAppStore } from '@/store/app';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
   const store = new Store(".settings.dat");
   const route = useRoute();
+  const router = useRouter();
   const appStore = useAppStore();
 
   store.get("user").then((res) => console.log(res.value))
@@ -93,8 +92,9 @@ import { useRoute } from 'vue-router';
     { title: 'Local Containers', icon: 'mdi-package', value: '/' },
   ])
 
-  const accountItems = ref([
-    { title: 'Logout', value: '/logout' },
-  ])
+  const logout = () => {
+    const appStore = useAppStore();
+    appStore.logout();
+  }
 
 </script>
