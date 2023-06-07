@@ -34,7 +34,7 @@ jobs:
 
   build:
     needs: test
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     strategy:
       fail-fast: false
       matrix:
@@ -61,6 +61,6 @@ jobs:
         with:
           name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}
           path: |
-            src-tauri/target/release/bundle/
+            src-tauri/target/debug/bundle/
           retention-days: 5
 
