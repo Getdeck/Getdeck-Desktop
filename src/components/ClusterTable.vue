@@ -19,12 +19,12 @@
                 <td>
                     <v-tooltip text="Connect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.id)" v-if="store.connection.clusterName !== cluster.id" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Disconnect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.name)" v-if="store.connection.clusterName === cluster.name"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.id)" v-if="store.connection.clusterName === cluster.id"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Edit">
@@ -34,7 +34,7 @@
                     </v-tooltip>
                     <v-tooltip text="Delete">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-delete" @click="clusterDelete(cluster.name)"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-delete" @click="clusterDelete(cluster.id)"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Shelf">
@@ -96,18 +96,18 @@ const getClusterList = () => {
     });
 };
 
-const clusterConnect = (clusterName: string) => {
-  ConnectionsService.ghostunnelConnectionsClusterNameGhostunnelGet(clusterName).then((res) => {
+const clusterConnect = (clusterId: string) => {
+  ConnectionsService.ghostunnelConnectionsClusterIdGhostunnelGet(clusterId).then((res) => {
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
     const clientKey = res.mtls["client.key"];
     const ports = res.ports;
 
-    connectCluster(clusterName, ports, caCrt, clientCrt, clientKey).then((res) => {
-      ClustersService.clusterKubeconfigClustersClusterNameKubeconfigGet(clusterName).then(async (res) => {
-        const kubeconfigPath = await writeKubeconfig(clusterName, res);
+    connectCluster(clusterId, ports, caCrt, clientCrt, clientKey).then(() => {
+      ClustersService.clusterKubeconfigClustersClusterIdKubeconfigGet(clusterId).then(async (res) => {
+        const kubeconfigPath = await writeKubeconfig(clusterId, res);
         emit("connected", "Kubeconfig written to " + kubeconfigPath);
-        store.connection.clusterName = clusterName;
+        store.connection.clusterName = clusterId;
         store.connection.kubeconfigPath = kubeconfigPath;
         store.connection.connected = true;
 
@@ -125,8 +125,8 @@ const clusterConnect = (clusterName: string) => {
 
 };
 
-const clusterDisconnect = (clusterName: string) => {
-   disconnectCluster(clusterName).then((res) => {
+const clusterDisconnect = (clusterId: string) => {
+   disconnectCluster(clusterId).then(() => {
       emit("connected", "Connection closed successfully.");
       store.connection.clusterName = "";
       store.connection.kubeconfigPath = "";
@@ -136,8 +136,8 @@ const clusterDisconnect = (clusterName: string) => {
     });
 };
 
-const clusterDelete = (clusterName: string) => {
-    ClustersService.clusterDeleteClustersClusterNameDelete(clusterName).then((res) => {
+const clusterDelete = (clusterId: string) => {
+    ClustersService.clusterDeleteClustersClusterIdDelete(clusterId).then((res) => {
         console.log("deletion success ", + res);
         setTimeout(() => {
             getClusterList();
