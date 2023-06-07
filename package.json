@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "deploy": "tauri build"
+    "deploy": "tauri build",
+    "deploy-debug": "tauri build --debug"
   },
   "devDependencies": {
     "@babel/types": "^7.20.7",
