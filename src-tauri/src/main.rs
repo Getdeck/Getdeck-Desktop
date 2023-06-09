@@ -4,11 +4,13 @@
 )]
 
 use beiboot_desktop::connection::{get_connector_context, PortMapping, TLSFiles};
+use tauri_plugin_oauth::start;
+
 mod util;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup])    
+        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server])
         .plugin(tauri_plugin_store::Builder::default().build())
         .on_window_event(|event| {
             match event.event() {
@@ -20,6 +22,16 @@ fn main() {
         })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+#[tauri::command]
+async fn start_server(window: tauri::Window) -> Result<u16, String> {
+    let tauri_url = window.url();
+    start(move |url| {
+        let params = url.split("#").collect::<Vec<&str>>();
+        window.eval(format!("window.location.replace('{}#{}')", tauri_url, params[1]).as_str()).unwrap();
+    })
+    .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
