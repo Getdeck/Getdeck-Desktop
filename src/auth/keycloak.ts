@@ -15,8 +15,8 @@ export interface Token {
 }
 
 let initOptions = {
-  url: 'https://login.beiboot.unikube.io/auth/',
-    realm: 'getdeck-beiboot',
+  url: 'https://login.getdeck.dev/auth/',
+    realm: 'Getdeck',
   clientId: 'beiboot-api'
 }
 
@@ -43,8 +43,8 @@ export async function getInitialToken(keycloak: Keycloak.KeycloakInstance) {
 
 export async function initKeycloak() {
   let initOptions = {
-    url: 'https://login.beiboot.unikube.io/auth/',
-      realm: 'getdeck-beiboot',
+    url: 'https://login.getdeck.dev/auth/',
+      realm: 'Getdeck',
     clientId: 'beiboot-api'
   }
   const appStore = useAppStore();
