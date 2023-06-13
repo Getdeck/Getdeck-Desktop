@@ -25,7 +25,7 @@ const app = createApp(App)
 
 registerPlugins(app)
 
-OpenAPI.BASE = "https://api.beiboot.unikube.io"
+OpenAPI.BASE = "https://api.getdeck.dev"
 
 app.mount('#app')
 initKeycloak();
