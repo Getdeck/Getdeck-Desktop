@@ -7,7 +7,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "beiboot-desktop",
+    "productName": "Getdeck-Desktop",
     "version": "0.1.0"
   },
   "tauri": {
@@ -30,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "dev.getdeck.beiboot-desktop",
+      "identifier": "dev.getdeck.desktop",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -51,8 +51,8 @@
     "security": {
       "csp": null,
       "dangerousRemoteDomainIpcAccess": [{
-        "domain": "unikube.io",
-        "windows": ["Beiboot Desktop"]
+        "domain": "getdeck.dev",
+        "windows": ["Getdeck Desktop"]
             
       }]
     },
