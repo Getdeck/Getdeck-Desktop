@@ -7,7 +7,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody v-if="clusterList.length > 0">
             <tr v-for="cluster in clusterList" :key="cluster.name">
                 <td>{{ cluster.name }}</td>
                 <td>
@@ -44,6 +44,9 @@
                     </v-tooltip>
                 </td>
             </tr>
+        </tbody>
+        <tbody v-else>
+          <tr>No clusters to list. Please create one first.</tr>
         </tbody>
     </v-table>
 </template>

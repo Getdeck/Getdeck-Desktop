@@ -13,26 +13,20 @@ import { createApp } from 'vue'
 // Plugins
 import { registerPlugins } from '@/plugins'
 
-import { initKeycloak } from '@/auth/keycloak';
 import router from '@/router'
 import { Store } from "tauri-plugin-store-api";
 import { OpenAPI } from "beiboot-api-client";
 import { useAppStore } from './store/app';
+import { initKeycloak } from '@/auth/keycloak';
+
+import Keycloak from 'keycloak-js';
 
 const app = createApp(App)
 
 registerPlugins(app)
 
-OpenAPI.BASE = "https://api.beiboot.unikube.io"
-const store = new Store(".settings.dat");
+OpenAPI.BASE = "https://api.getdeck.dev"
 
 app.mount('#app')
-store.get("token").then((token: any) => {
-  if (token) {
-    const keycloak = initKeycloak(token.value);
-    const appStore = useAppStore();
-    appStore.auth.keycloak = keycloak;
-  } else {
-    router.push("/login")
-  }
-})
+document.addEventListener('contextmenu', event => event.preventDefault());
+initKeycloak();

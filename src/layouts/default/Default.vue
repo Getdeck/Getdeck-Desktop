@@ -38,7 +38,7 @@
       </v-main>
     <v-bottom-navigation order="1" bg-color="secondary" elevation="0" :border="true">
       <v-menu
-      v-if="user"
+      v-if="true"
     >
       <template v-slot:activator="{ props }">
         <v-btn
@@ -46,7 +46,7 @@
           class="ml-3"
           v-bind="props"
         >
-        Hi, {{ user.firstName }}
+        Hi, {{ appStore.auth.user }}
         </v-btn>
       </template>
 

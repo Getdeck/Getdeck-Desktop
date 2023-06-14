@@ -21,6 +21,7 @@
 import { ref } from 'vue';
 import { Store } from "tauri-plugin-store-api";
 import { getInitialToken } from "@/auth/keycloak";
+import { startOAuthServer } from "@/beibootctl";
 
 const username = ref("");
 const password = ref("");
@@ -31,7 +32,6 @@ const login = () => {
   getInitialToken(username.value, password.value);
   loginLoading.value = false;
 }
-
 
 const store = new Store(".settings.dat");
 /* let clusterList = ClustersService.clusterListClustersGet(1) */

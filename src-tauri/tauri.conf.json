@@ -7,12 +7,14 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "beiboot-desktop",
+    "productName": "Getdeck-Desktop",
     "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
-      "shell": {}
+      "shell": {
+        "open": true
+      }
     },
     "bundle": {
       "active": true,
@@ -28,7 +30,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "dev.getdeck.beiboot-desktop",
+      "identifier": "dev.getdeck.desktop",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -47,7 +49,12 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": null,
+      "dangerousRemoteDomainIpcAccess": [{
+        "domain": "getdeck.dev",
+        "windows": ["Getdeck Desktop"]
+            
+      }]
     },
     "updater": {
       "active": false
@@ -56,7 +63,7 @@
       {
         "fullscreen": false,
         "height": 800,
-        "resizable": false,
+        "resizable": true,
         "title": "Beiboot Desktop",
         "width": 1200
       }

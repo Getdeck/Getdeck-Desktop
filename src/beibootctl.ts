@@ -44,3 +44,8 @@ export async function disconnectCluster(name: string) {
   let res = await invoke("disconnect_beiboot_ghostunnel", { beibootName: name })
   return res
 }
+
+export async function startOAuthServer() {
+  let res = await invoke("start_server", {})
+  return res
+}
