@@ -28,4 +28,5 @@ registerPlugins(app)
 OpenAPI.BASE = "https://api.getdeck.dev"
 
 app.mount('#app')
+document.addEventListener('contextmenu', event => event.preventDefault());
 initKeycloak();

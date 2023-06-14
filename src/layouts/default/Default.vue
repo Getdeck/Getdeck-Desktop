@@ -46,7 +46,7 @@
           class="ml-3"
           v-bind="props"
         >
-        Hi, {{ "user" }}
+        Hi, {{ appStore.auth.user }}
         </v-btn>
       </template>
 

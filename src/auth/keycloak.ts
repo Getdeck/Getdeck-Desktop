@@ -16,7 +16,7 @@ export interface Token {
 
 let initOptions = {
   url: 'https://login.getdeck.dev/auth/',
-    realm: 'Getdeck',
+  realm: 'Getdeck',
   clientId: 'beiboot-api'
 }
 
@@ -44,14 +44,17 @@ export async function getInitialToken(keycloak: Keycloak.KeycloakInstance) {
 export async function initKeycloak() {
   let initOptions = {
     url: 'https://login.getdeck.dev/auth/',
-      realm: 'Getdeck',
+    realm: 'Getdeck',
     clientId: 'beiboot-api'
   }
   const appStore = useAppStore();
-  const store = new Store(".settings.dat");
+  const store = new Store(".settings2.dat");
 
   const storeToken = await store.get("token");
   const storeRefreshToken = await store.get("refreshToken");
+
+  console.log(storeToken)
+  console.log(storeRefreshToken)
 
   const keycloak = new Keycloak(initOptions);
   keycloak.init({
@@ -65,20 +68,35 @@ export async function initKeycloak() {
   }).then(async (authenticated) => {
     console.log(authenticated)
     if (authenticated) {
-      console.log(keycloak.token)
       store.set("token", {value: keycloak.token})
       store.set("refreshToken", {value: keycloak.refreshToken})
       OpenAPI.TOKEN = keycloak.token;
+      keycloak.loadUserProfile().then((profile) => {
+                appStore.auth.authenticated = true;
+                appStore.auth.user = profile.firstName || "";
+                store.set("user", { value: profile });
+                router.push("/clusters");
+            });
       await store.save();
-      appStore.auth.authenticated = true;
-      appStore.auth.keycloak = keycloak;
-      router.push("/clusters");
     } else {
+      store.clear();
+      store.save();
       getInitialToken(keycloak);
     }
   }).catch((err) => {
       console.log(err)
     })
-  console.log(keycloak)
-
+    setInterval(() => {
+        keycloak.updateToken(0).then((refreshed) => {
+            console.debug(refreshed)
+            if (refreshed) {
+                console.debug('Token refreshed' + refreshed);
+                OpenAPI.TOKEN = keycloak.token;
+            } else {
+                console.debug('Token not refreshed, still valid.');
+            }
+        }).catch(() => {
+            console.debug('Failed to refresh token');
+        });
+    }, 6000)
 }
