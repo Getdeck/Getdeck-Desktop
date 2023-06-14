@@ -9,6 +9,10 @@ use tauri_plugin_oauth::start;
 mod util;
 
 fn main() {
+    let _guard = sentry::init(("https://a64f388330914f08b0a015e6068dac3d@o146863.ingest.sentry.io/4505356777357312", sentry::ClientOptions {
+        release: sentry::release_name!(),
+        ..Default::default()
+    }));
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server])
         .plugin(tauri_plugin_store::Builder::default().build())
