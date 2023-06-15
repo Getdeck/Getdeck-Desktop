@@ -46,7 +46,7 @@ if (process.env.NODE_ENV !== 'dev') {
 
 app.mount('#app')
 
-if (process.env.NODE_ENV !== 'dev' && process.env.NODE_ENV !== 'debug') {
+if (process.env.NODE_ENV !== 'debug') {
   document.addEventListener('contextmenu', event => event.preventDefault());
 }
 

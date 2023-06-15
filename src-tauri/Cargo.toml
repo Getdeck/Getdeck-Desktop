@@ -27,6 +27,8 @@ shellexpand = "3.1.0"
 futures-util = "0.3"
 tauri-plugin-oauth = "0.0.0-alpha.0"
 sentry = "0.31.3"
+tauri-plugin-localhost = { git = "https://github.com/tauri-apps/plugins-workspace", branch = "v1" }
+portpicker = "0.1"
 
 [features]
 # by default Tauri runs in production mode
