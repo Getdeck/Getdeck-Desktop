@@ -19,17 +19,12 @@
                 <td>
                     <v-tooltip text="Connect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.id)" v-if="store.connection.clusterName !== cluster.id" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.id, cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Disconnect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.id)" v-if="store.connection.clusterName === cluster.id"></v-btn>
-                    </template>
-                    </v-tooltip>
-                    <v-tooltip text="Edit">
-                    <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-pencil"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.id)" v-if="store.connection.clusterName === cluster.name"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Delete">
@@ -39,7 +34,7 @@
                     </v-tooltip>
                     <v-tooltip text="Shelf">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-bookshelf"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-bookshelf" disabled></v-btn>
                     </template>
                     </v-tooltip>
                 </td>
@@ -96,10 +91,11 @@ const getChipColor = (state: string) => {
 const getClusterList = () => {
     ClustersService.clusterListClustersGet().then((res) => {
         clusterList.value = res.items;
+        console.log(res.items);
     });
 };
 
-const clusterConnect = (clusterId: string) => {
+const clusterConnect = (clusterId: string, clusterName: string) => {
   ConnectionsService.ghostunnelConnectionsClusterIdGhostunnelGet(clusterId).then((res) => {
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
@@ -110,7 +106,7 @@ const clusterConnect = (clusterId: string) => {
       ClustersService.clusterKubeconfigClustersClusterIdKubeconfigGet(clusterId).then(async (res) => {
         const kubeconfigPath = await writeKubeconfig(clusterId, res);
         emit("connected", "Kubeconfig written to " + kubeconfigPath);
-        store.connection.clusterName = clusterId;
+        store.connection.clusterName = clusterName;
         store.connection.kubeconfigPath = kubeconfigPath;
         store.connection.connected = true;
 
@@ -151,6 +147,9 @@ const clusterDelete = (clusterId: string) => {
 };
 
 onMounted(() => {
-    getClusterList();
+    // getClusterList();
+    setInterval(() => {
+        getClusterList();
+    }, 5000);
 });
 </script>
