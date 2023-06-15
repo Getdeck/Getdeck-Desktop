@@ -18,7 +18,7 @@ fn main() {
         .plugin(tauri_plugin_store::Builder::default().build())
         .on_window_event(|event| {
             match event.event() {
-                tauri::WindowEvent::CloseRequested { .. } => {
+                tauri::WindowEvent::CloseRequested { .. } | tauri::WindowEvent::Destroyed { .. } => {
                     get_connector_context("", "GhostunnelDocker").disconnect().unwrap();
                 }
                 _ => {}

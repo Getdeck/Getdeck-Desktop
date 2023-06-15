@@ -14,7 +14,7 @@
           <v-list-item>
             <v-img src="/logo.svg" width="200" class="mb-5"></v-img>
           </v-list-item>
-          <v-list-item v-for="item in items" :key="item.title" class="ml-1" :to="item.value" :active="false">
+          <v-list-item v-for="item in items" :key="item.title" class="ml-1" :to="item.value" :active="false" :disabled="item.disabled">
             <template v-slot:prepend>
               <v-icon :icon="item.icon" :color="route.path === item.value ? '#ff165d' : 'secondary-2'"></v-icon>
             </template>
@@ -87,9 +87,9 @@ import { useRoute, useRouter } from 'vue-router';
 
   const drawer = ref(true);
   const items = ref([
-    { title: 'Clusters', icon: 'mdi-server', value: '/clusters' },
-    { title: 'Inventory', icon: 'mdi-bookshelf', value: '/' },
-    { title: 'Local Containers', icon: 'mdi-package', value: '/' },
+    { title: 'Clusters', icon: 'mdi-server', value: '/clusters', disabled: false },
+    { title: 'Inventory', icon: 'mdi-bookshelf', value: '/', disabled: true },
+    { title: 'Local Containers', icon: 'mdi-package', value: '/', disabled: true },
   ])
 
   const logout = () => {
