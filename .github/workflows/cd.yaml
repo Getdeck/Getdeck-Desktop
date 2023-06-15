@@ -57,16 +57,16 @@ jobs:
         run: npm install && npm run deploy-debug
       - name: Upload Linux debug artifact
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os }} == "Linux"
+        if: matrix.platform == 'ubuntu-20.04'
         with:
           name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}-debug
           path: |
-            src-tauri/target/debug/bundle/appimage
-            src-tauri/target/debug/bundle/deb
+            src-tauri/target/debug/bundle/appimage/getdeck-desktop_0.1.0_amd64.AppImage
+            /src-tauri/target/debug/bundle/deb/getdeck-desktop_0.1.0_amd64.deb
           retention-days: 5
       - name: Upload debug artifact
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os }} != "Linux"
+        if: matrix.platform != 'ubuntu-20.04'
         with:
           name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}-debug
           path: |
@@ -98,16 +98,16 @@ jobs:
         run: npm install && npm run deploy
       - name: Upload Linux prod artifact
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os }} == "Linux"
+        if: matrix.platform == 'ubuntu-20.04'
         with:
           name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}
           path: |
-            src-tauri/target/debug/bundle/appimage
-            src-tauri/target/debug/bundle/deb
+            src-tauri/target/release/bundle/appimage/getdeck-desktop_0.1.0_amd64.AppImage
+            /src-tauri/target/release/bundle/deb/getdeck-desktop_0.1.0_amd64.deb
           retention-days: 5
       - name: Upload prod Artifact
         uses: actions/upload-artifact@v3
-        if: ${{ runner.os }} != "Linux"
+        if: matrix.platform != 'ubuntu-20.04'
         with:
           name: beiboot-desktop-${{ runner.os }}-${{ runner.arch }}
           path: |
