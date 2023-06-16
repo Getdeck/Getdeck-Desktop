@@ -1,5 +1,6 @@
 import { Command } from "@tauri-apps/api/shell";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useAppStore } from "./store/app";
 
 export async function getVersion() {
   return "1.0.0";
@@ -47,5 +48,19 @@ export async function disconnectCluster(name: string) {
 
 export async function startOAuthServer() {
   let res = await invoke("start_server", {})
+  return res
+}
+
+export async function checkRunningConnects() {
+  const appStore = useAppStore();
+
+  let res: string[] = await invoke("check_running_connects", {})
+  if (res.length > 0) {
+    appStore.connection.clusterName = res[0]
+    appStore.connection.connected = true;
+  } else {
+    appStore.connection.clusterName = ""
+    appStore.connection.connected = false;
+  }
   return res
 }
