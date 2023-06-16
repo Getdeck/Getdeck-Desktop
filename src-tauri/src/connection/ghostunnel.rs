@@ -1,6 +1,7 @@
 use bollard::container::{Config, CreateContainerOptions, StartContainerOptions, ListContainersOptions, RemoveContainerOptions};
 use bollard::service::{HostConfig, PortBinding, PortMap, RestartPolicy, RestartPolicyNameEnum};
 use bollard::Docker;
+
 use std::collections::HashMap;
 use futures_util::TryStreamExt;
 
@@ -166,5 +167,45 @@ impl Connector for GhostunnelDocker {
                 Ok(())
             })
 
+    }
+
+    fn check_running(&self) -> Result<Vec<String>, ConnectError> {
+        tokio::runtime::Builder::new_multi_thread()
+            .enable_all()
+            .build()
+            .unwrap()
+            .block_on(async move {
+                let docker = match Docker::connect_with_socket_defaults() {
+                    Err(why) => return Err(ConnectError::new(format!("Docker error: {}", why).as_str())),
+                    Ok(docker) => docker,
+                };
+
+                let name_label = "beiboot.getdeck.dev/name".to_string();
+
+                let filters = HashMap::from([
+                    ("label", vec![name_label.as_str()])
+                ]);
+
+                let options = Some(ListContainersOptions{
+                    filters,
+                    ..Default::default()
+                });
+
+                let mut result = vec![];
+
+                let rcontainers = docker.list_containers(options).await;
+                match rcontainers {
+                    Ok(containers) => {
+                        for container in &containers {
+                            match &container.labels.clone().expect("Could not get labels.").get("beiboot.getdeck.dev/name") {
+                                None => return Err(ConnectError::new(format!("Could not find containers: {}", "No name label").as_str())),
+                                Some(name) => result.push(name.to_string()),
+                            }
+                        }
+                        Ok(result)
+                    },
+                    Err(why) => return Err(ConnectError::new(format!("Could not find containers: {}", why).as_str())),
+                }
+            })
     }
 }

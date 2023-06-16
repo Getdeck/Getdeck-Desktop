@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { connectCluster, disconnectCluster, writeKubeconfig } from "@/beibootctl";
+import { checkRunningConnects, connectCluster, disconnectCluster, writeKubeconfig } from "@/beibootctl";
 import { useAppStore } from "@/store/app";
 import { ClusterStateResponse, ClustersService, ConnectionsService } from "beiboot-api-client";
 import { ref, onMounted } from "vue";
@@ -102,9 +102,9 @@ const clusterConnect = (clusterId: string, clusterName: string) => {
     const clientKey = res.mtls["client.key"];
     const ports = res.ports;
 
-    connectCluster(clusterId, ports, caCrt, clientCrt, clientKey).then(() => {
+    connectCluster(clusterName, ports, caCrt, clientCrt, clientKey).then(() => {
       ClustersService.clusterKubeconfigClustersClusterIdKubeconfigGet(clusterId).then(async (res) => {
-        const kubeconfigPath = await writeKubeconfig(clusterId, res);
+        const kubeconfigPath = await writeKubeconfig(clusterName, res);
         emit("connected", "Kubeconfig written to " + kubeconfigPath);
         store.connection.clusterName = clusterName;
         store.connection.kubeconfigPath = kubeconfigPath;
@@ -150,6 +150,7 @@ onMounted(() => {
     // getClusterList();
     setInterval(() => {
         getClusterList();
+        checkRunningConnects().then((res) => console.log(res));
     }, 5000);
 });
 </script>

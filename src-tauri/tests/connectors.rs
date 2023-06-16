@@ -4,7 +4,7 @@ mod ghostunnel_docker_tests {
 
     //FIXME: This test fails after the first run because of a container name conflict.
     #[test]
-    fn test_connect_ghostunnel_docker() {
+    fn test_a_connect_ghostunnel_docker() {
         let connector = get_connector_context("test", "GhostunnelDocker");
 
         let ports = vec![PortMapping {
@@ -35,7 +35,7 @@ mod ghostunnel_docker_tests {
     }
 
     #[test]
-    fn test_disconnect_ghostunnel_docker() {
+    fn test_c_disconnect_ghostunnel_docker() {
         let connector = get_connector_context("test", "GhostunnelDocker");
         let res = match connector.disconnect() {
             Ok(_) => 0,
@@ -45,5 +45,19 @@ mod ghostunnel_docker_tests {
             }
         };
         assert_eq!(0, res)
+    }
+    #[test]
+    fn test_b_check_running() {
+        let connector = get_connector_context("test", "GhostunnelDocker");
+        let _res = match connector.check_running() {
+            Ok(container_summary) => {
+                println!("{:?}", container_summary);
+                0
+            },
+            Err(why) => {
+                println!("{}", why);
+                1
+            }
+        };
     }
 }
