@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "cross-env NODE_ENV=dev tauri",
+    "tauri": "cross-env NODE_ENV=debug tauri",
     "deploy": "tauri build",
     "deploy-debug": "cross-env NODE_ENV=debug tauri build --debug"
   },

@@ -5,6 +5,7 @@
 
 use beiboot_desktop::connection::{get_connector_context, PortMapping, TLSFiles};
 use tauri_plugin_oauth::start;
+use tauri::{utils::config::AppUrl, window::WindowBuilder, WindowUrl};
 
 mod util;
 
@@ -13,18 +14,49 @@ fn main() {
         release: sentry::release_name!(),
         ..Default::default()
     }));
-    tauri::Builder::default()
+    let mut context = tauri::generate_context!();
+    let mut builder = tauri::Builder::default();
+
+    let port = portpicker::pick_unused_port().expect("failed to find an available port");
+    #[cfg(dev)]
+    {
+        let port = 5173;
+    }
+    let url = format!("http://localhost:{}", port).parse().unwrap();
+    let window_url = WindowUrl::External(url);
+    context.config_mut().build.dist_dir = AppUrl::Url(window_url.clone());
+
+    builder = builder
         .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server])
+        .plugin(tauri_plugin_localhost::Builder::new(port).build())
         .plugin(tauri_plugin_store::Builder::default().build())
-        .on_window_event(|event| {
-            match event.event() {
-                tauri::WindowEvent::CloseRequested { .. } | tauri::WindowEvent::Destroyed { .. } => {
-                    get_connector_context("", "GhostunnelDocker").disconnect().unwrap();
+        .setup(move |app| {
+            WindowBuilder::new(
+                app,
+                "main".to_string(),
+                if cfg!(dev) {
+                    Default::default()
+                } else {
+                    window_url
                 }
-                _ => {}
-            }
+                )
+                .fullscreen(false)
+                .inner_size(1200.0, 800.0)
+                .title("Getdeck Desktop")
+                .build()?;
+            Ok(())
         })
-        .run(tauri::generate_context!())
+    .on_window_event(|event| {
+        match event.event() {
+            tauri::WindowEvent::CloseRequested { .. } | tauri::WindowEvent::Destroyed { .. } => {
+                get_connector_context("", "GhostunnelDocker").disconnect().unwrap();
+            }
+            _ => {}
+        }
+    });
+
+    builder
+        .run(context)
         .expect("error while running tauri application");
 }
 

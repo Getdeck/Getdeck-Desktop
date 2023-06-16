@@ -58,15 +58,6 @@
     },
     "updater": {
       "active": false
-    },
-    "windows": [
-      {
-        "fullscreen": false,
-        "height": 800,
-        "resizable": true,
-        "title": "Beiboot Desktop",
-        "width": 1200
-      }
-    ]
+    }
   }
 }
