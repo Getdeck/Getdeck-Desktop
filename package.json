@@ -24,7 +24,7 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
-    "pinia": "^2.0.35",
+    "pinia": "^2.1.4",
     "prettier": "^2.8.8",
     "roboto-fontface": "*",
     "sass": "^1.55.0",
