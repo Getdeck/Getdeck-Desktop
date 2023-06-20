@@ -8,13 +8,15 @@ export const useAppStore = defineStore('appStore', {
     return {
       connection: {
         clusterName: "",
+        clusterId: "",
         kubeconfigPath: "",
         connected: false,
       },
       auth: {
         authenticated: false,
         user: "",
-        keycloak: null as Keycloak | null
+        keycloak: null as Keycloak | null,
+        token: ""
       }
     }
   },
