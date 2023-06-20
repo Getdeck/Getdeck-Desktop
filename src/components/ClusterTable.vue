@@ -24,12 +24,12 @@
                     </v-tooltip>
                     <v-tooltip text="Disconnect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.id)" v-if="store.connection.clusterName === cluster.name"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-disconnect" @click="clusterDisconnect(cluster.name)" v-if="store.connection.clusterName === cluster.name"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Delete">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-delete" @click="clusterDelete(cluster.id)"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-delete" @click="clusterDelete(cluster.name, cluster.id)"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Shelf">
@@ -49,6 +49,7 @@
 <script lang="ts" setup>
 import { checkRunningConnects, connectCluster, disconnectCluster, writeKubeconfig } from "@/beibootctl";
 import { useAppStore } from "@/store/app";
+import { invoke } from "@tauri-apps/api/tauri";
 import { ClusterStateResponse, ClustersService, ConnectionsService } from "beiboot-api-client";
 import { ref, onMounted } from "vue";
 
@@ -106,7 +107,13 @@ const clusterConnect = (clusterId: string, clusterName: string) => {
       ClustersService.clusterKubeconfigClustersClusterIdKubeconfigGet(clusterId).then(async (res) => {
         const kubeconfigPath = await writeKubeconfig(clusterName, res);
         emit("connected", "Kubeconfig written to " + kubeconfigPath);
+        invoke("establish_heartbeat_connection", {
+          clusterId: clusterId,
+          // @ts-ignore
+          token: store.auth.token
+        });
         store.connection.clusterName = clusterName;
+        store.connection.clusterId = clusterId;
         store.connection.kubeconfigPath = kubeconfigPath;
         store.connection.connected = true;
 
@@ -124,8 +131,8 @@ const clusterConnect = (clusterId: string, clusterName: string) => {
 
 };
 
-const clusterDisconnect = (clusterId: string) => {
-   disconnectCluster(clusterId).then(() => {
+const clusterDisconnect = (clusterName: string) => {
+   disconnectCluster(clusterName).then(() => {
       emit("connected", "Connection closed successfully.");
       store.connection.clusterName = "";
       store.connection.kubeconfigPath = "";
@@ -135,9 +142,10 @@ const clusterDisconnect = (clusterId: string) => {
     });
 };
 
-const clusterDelete = (clusterId: string) => {
+const clusterDelete = (clusterName: string, clusterId: string) => {
     ClustersService.clusterDeleteClustersClusterIdDelete(clusterId).then((res) => {
         console.log("deletion success ", + res);
+        clusterDisconnect(clusterName);
         setTimeout(() => {
             getClusterList();
         }, 2000);
@@ -147,7 +155,7 @@ const clusterDelete = (clusterId: string) => {
 };
 
 onMounted(() => {
-    // getClusterList();
+    getClusterList();
     setInterval(() => {
         getClusterList();
         checkRunningConnects().then((res) => console.log(res));

@@ -130,7 +130,7 @@ impl Connector for GhostunnelDocker {
                 }; 
 
 
-                let name_label = if name == "" { format!("beiboot.getdeck.dev/name") } else { format!("beiboot.getdeck.dev/name={name}", name=name) };
+                let name_label = if name.is_empty() { "beiboot.getdeck.dev/name".to_string() } else { format!("beiboot.getdeck.dev/name={name}", name=name) };
 
 
                 let filters = HashMap::from([

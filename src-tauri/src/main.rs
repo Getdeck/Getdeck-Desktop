@@ -8,6 +8,7 @@ use tauri_plugin_oauth::start;
 use tauri::{utils::config::AppUrl, window::WindowBuilder, WindowUrl};
 
 mod util;
+mod heartbeat;
 
 fn main() {
     let _guard = sentry::init(("https://a64f388330914f08b0a015e6068dac3d@o146863.ingest.sentry.io/4505356777357312", sentry::ClientOptions {
@@ -27,7 +28,7 @@ fn main() {
     context.config_mut().build.dist_dir = AppUrl::Url(window_url.clone());
 
     builder = builder
-        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server, check_running_connects])
+        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server, check_running_connects, establish_heartbeat_connection])
         .plugin(tauri_plugin_localhost::Builder::new(port).build())
         .plugin(tauri_plugin_store::Builder::default().build())
         .setup(move |app| {
@@ -64,7 +65,7 @@ fn main() {
 async fn start_server(window: tauri::Window) -> Result<u16, String> {
     let tauri_url = window.url();
     start(move |url| {
-        let params = url.split("#").collect::<Vec<&str>>();
+        let params = url.split('#').collect::<Vec<&str>>();
         window.eval(format!("window.location.replace('{}#{}')", tauri_url, params[1]).as_str()).unwrap();
     })
     .map_err(|e| e.to_string())
@@ -136,4 +137,15 @@ fn check_running_connects() -> Result<Vec<String>, String> {
             Err(format!("{}", why))
         }
     }
+}
+
+#[tauri::command]
+async fn establish_heartbeat_connection(cluster_id: &str, token: &str) -> Result<(), String> {
+        match heartbeat::establish_heartbeat_connection(cluster_id, token).await {
+            Ok(_) => Ok(()),
+            Err(why) => {
+                println!("{}", why);
+                Err(format!("{}", why))
+            }
+        }
 }

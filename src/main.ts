@@ -17,6 +17,8 @@ import router from '@/router'
 import { OpenAPI } from "beiboot-api-client";
 import { initKeycloak } from '@/auth/keycloak';
 import * as Sentry from "@sentry/vue";
+import { invoke } from '@tauri-apps/api/tauri';
+import { useAppStore } from './store/app';
 
 const app = createApp(App)
 
