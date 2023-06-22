@@ -1,10 +1,15 @@
 use std::fs::{File,create_dir_all};
 use std::io::prelude::*;
+use std::env::temp_dir;
+use std::path::PathBuf;
 
 pub fn write_conf_file(beiboot_name: String, content: &str, file_type: &str) -> Result<String, String> {
 
-    let dir = format!("/tmp/beiboot/{}", beiboot_name);
-    let dir_result = create_dir_all(dir);
+    let tmp = temp_dir();
+    let mut path = PathBuf::from(&tmp);
+    path.push("beiboot");
+    path.push(&beiboot_name);
+    let dir_result = create_dir_all(path.clone());
     match dir_result {
         Ok(_) => (),
         Err(why) => {
@@ -13,7 +18,7 @@ pub fn write_conf_file(beiboot_name: String, content: &str, file_type: &str) -> 
         }
     }
 
-    let path = format!("/tmp/beiboot/{}/{}", beiboot_name, file_type);
+    path.push(file_type);
     let file_result = File::create(&path);
     let mut file = match file_result {
         Ok(file) => file,
@@ -24,12 +29,15 @@ pub fn write_conf_file(beiboot_name: String, content: &str, file_type: &str) -> 
     };
     file.write_all(content.as_bytes()).unwrap();
 
-    Ok(path)
+    Ok(path.to_str().unwrap().to_string())
 }
 
 pub fn cleanup(beiboot_name: String) -> Result<(), String> {
-    let dir = format!("/tmp/beiboot/{}", beiboot_name);
-    let dir_result = std::fs::remove_dir_all(dir);
+    let tmp = temp_dir();
+    let mut path = PathBuf::from(&tmp);
+    path.push("beiboot");
+    path.push(&beiboot_name);
+    let dir_result = std::fs::remove_dir_all(path);
     match dir_result {
         Ok(_) => Ok(()),
         Err(why) => {
@@ -48,6 +56,9 @@ mod tests {
         let cert_type = "ca.crt".to_string();
         let result = super::write_conf_file(beiboot_name.clone(), &content, &cert_type);
         assert!(result.is_ok());
+
+        // Note: this assertion will fail if the temp directory is not /tmp,
+        // eg on windows or macos. To successfully run this on macos, set TMPDIR=/tmp
         assert_eq!(result.unwrap(), "/tmp/beiboot/test/ca.crt".to_string());
         let cleanup_result = super::cleanup(beiboot_name);
         assert!(cleanup_result.is_ok());
