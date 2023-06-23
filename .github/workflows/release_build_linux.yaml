@@ -12,8 +12,10 @@ jobs:
     runs-on: ubuntu-20.04 
     steps:
       - uses: actions/checkout@v3
-      - name: Set Tauri Signature env
-        run: export TAURI_PRIVATE_KEY=${{ secrets.TAURI_PRIVATE_KEY }} && export TAURI_KEY_PASSWORD=${{ secrets.TAURI_KEY_PASSWORD }}
+      - name: Set Tauri signature private key 
+        run: echo "TAURI_PRIVATE_KEY=${{ secrets.TAURI_PRIVATE_KEY }}" >> $GITHUB_ENV
+      - name: Set Tauri signature private key password
+        run: echo "TAURI_KEY_PASSWORD=${{ secrets.TAURI_KEY_PASSWORD }}" >> $GITHUB_ENV
       - name: setup node
         uses: actions/setup-node@v3
         with:
