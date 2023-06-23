@@ -28,7 +28,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            src-tauri/target/release/bundle/dmg/Getdeck-Desktop_${{ github.ref_name }}_aarch64.dmg 
+            src-tauri/target/release/bundle/dmg/Getdeck-Desktop_${{ github.ref_name }}_x64.dmg 
             src-tauri/target/release/bundle/macos/Getdeck-Desktop.app
             src-tauri/target/release/bundle/macos/Getdeck-Desktop.app.tar.gz
             src-tauri/target/release/bundle/macos/Getdeck-Desktop.app.tar.gz.sig

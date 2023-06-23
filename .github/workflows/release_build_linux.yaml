@@ -34,6 +34,6 @@ jobs:
           files: |
             src-tauri/target/release/bundle/appimage/getdeck-desktop_${{ github.ref_name }}_amd64.AppImage
             src-tauri/target/release/bundle/appimage/getdeck-desktop_${{ github.ref_name }}_amd64.AppImage.tar.gz
-            src-tauri/target/release/bundle/appimage/getdeck-desktop${{ github.ref_name }}_amd64.AppImage.tar.gz.sig
+            src-tauri/target/release/bundle/appimage/getdeck-desktop_${{ github.ref_name }}_amd64.AppImage.tar.gz.sig
             src-tauri/target/release/bundle/deb/getdeck-desktop_${{ github.ref_name }}_amd64.deb
 
