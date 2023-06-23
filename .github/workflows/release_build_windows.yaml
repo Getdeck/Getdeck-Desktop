@@ -13,9 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set Tauri Signature Private Key
-        run: echo ${{ secrets.TAURI_PRIVATE_KEY }} | Out-File -FilePath $env:GITHUB_ENV 
+        run: echo "TAURI_PRIVATE_KEY=${{ secrets.TAURI_PRIVATE_KEY }}" | Out-File -FilePath $env:GITHUB_ENV 
       - name: Set Tauri Sig Password
-        run: echo ${{ secrets.TAURI_KEY_PASSWORD }} | Out-File -FilePath $env:GITHUB_ENV 
+        run: echo "TAURI_KEY_PASSWORD=${{ secrets.TAURI_KEY_PASSWORD }}" | Out-File -FilePath $env:GITHUB_ENV 
       - name: setup node
         uses: actions/setup-node@v3
         with:
