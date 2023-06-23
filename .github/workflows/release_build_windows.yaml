@@ -28,6 +28,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi
-            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip
-            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip.sig
+            src-tauri/target/release/bundle/msi/getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi
+            src-tauri/target/release/bundle/msi/getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip
+            src-tauri/target/release/bundle/msi/getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip.sig
