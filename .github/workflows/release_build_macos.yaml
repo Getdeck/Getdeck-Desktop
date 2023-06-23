@@ -1,0 +1,36 @@
+name: "release-build-macos"
+on:
+  push:
+    tags:
+      - "*.*.*"
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    
+    runs-on: macos-latest 
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Set Tauri Signature env
+        run: export TAURI_PRIVATE_KEY=${{ secrets.TAURI_PRIVATE_KEY }} && export TAURI_KEY_PASSWORD=${{ secrets.TAURI_KEY_PASSWORD }}
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: build
+        run: npm install && npm run deploy
+      - name: Attach files to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            src-tauri/target/release/bundle/dmg/Getdeck-Desktop_${{ RELEASE_VERSION }}_aarch64.dmg 
+            src-tauri/target/release/bundle/macos/Getdeck-Desktop.app
+            src-tauri/target/release/bundle/macos/Getdeck-Desktop.app.tar.gz
+            src-tauri/target/release/bundle/macos/Getdeck-Desktop.app.tar.gz.sig
+
+

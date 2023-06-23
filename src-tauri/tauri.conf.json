@@ -8,13 +8,19 @@
   },
   "package": {
     "productName": "Getdeck-Desktop",
-    "version": "0.1.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
       "shell": {
         "open": true
       }
+    },
+    "updater": {
+        "active": true,
+        "endpoints": [
+            "https://raw.githubusercontent.com/Getdeck/Getdeck-Desktop/main/updater.json"
+        ]
     },
     "bundle": {
       "active": true,
