@@ -12,8 +12,10 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
-      - name: Set Tauri Signature env
-        run: echo ${{ secrets.TAURI_PRIVATE_KEY }} >> $env:GITHUB_ENV && echo ${{ secrets.TAURI_KEY_PASSWORD }} >> $env:GITHUB_ENV
+      - name: Set Tauri Signature Private Key
+        run: echo ${{ secrets.TAURI_PRIVATE_KEY }} >> $env:GITHUB_ENV 
+      - name: Set Tauri Sig Password
+        run: echo ${{ secrets.TAURI_KEY_PASSWORD }} >> $env:GITHUB_ENV
       - name: setup node
         uses: actions/setup-node@v3
         with:
@@ -26,6 +28,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi
-            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi.zip
-            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi.zip.sig
+            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi
+            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip
+            getdeck-desktop_${{ github.ref_name }}_x64_en-US.msi.zip.sig

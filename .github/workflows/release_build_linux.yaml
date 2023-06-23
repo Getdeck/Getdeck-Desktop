@@ -12,7 +12,6 @@ jobs:
     runs-on: ubuntu-20.04 
     steps:
       - uses: actions/checkout@v3
-      - name: Set env
       - name: Set Tauri Signature env
         run: export TAURI_PRIVATE_KEY=${{ secrets.TAURI_PRIVATE_KEY }} && export TAURI_KEY_PASSWORD=${{ secrets.TAURI_KEY_PASSWORD }}
       - name: setup node
@@ -31,8 +30,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            src-tauri/target/release/bundle/appimage/getdeck-desktop-linux-${{ github.ref_name }}-AppImage
-            src-tauri/target/release/bundle/appimage/getdeck-desktop-linux-${{ github.ref_name }}-AppImage.tar.gz
-            src-tauri/target/release/bundle/appimage/getdeck-desktop-linux-${{ github.ref_name }}-AppImage.tar.gz.sig
-            src-tauri/target/release/bundle/deb/getdeck-desktop-linux-${{ github.ref_name }}-deb
+            src-tauri/target/release/bundle/appimage/getdeck-desktop_${{ github.ref_name }}_amd64.AppImage
+            src-tauri/target/release/bundle/appimage/getdeck-desktop_${{ github.ref_name }}_amd64.AppImage.tar.gz
+            src-tauri/target/release/bundle/appimage/getdeck-desktop${{ github.ref_name }}_amd64.AppImage.tar.gz.sig
+            src-tauri/target/release/bundle/deb/getdeck-desktop_${{ github.ref_name }}_amd64.deb
 
