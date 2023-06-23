@@ -62,9 +62,6 @@
         "windows": ["Getdeck Desktop"]
             
       }]
-    },
-    "updater": {
-      "active": false
     }
   }
 }
