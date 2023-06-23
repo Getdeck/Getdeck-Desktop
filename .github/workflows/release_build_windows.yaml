@@ -12,8 +12,6 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
-      - name: Set env
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $env:GITHUB_ENV
       - name: Set Tauri Signature env
         run: echo ${{ secrets.TAURI_PRIVATE_KEY }} >> $env:GITHUB_ENV && echo ${{ secrets.TAURI_KEY_PASSWORD }} >> $env:GITHUB_ENV
       - name: setup node
@@ -28,6 +26,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            beiboot-desktop_${{ RELEASE_VERSION }}_x64_en-US.msi
-            beiboot-desktop_${{ RELEASE_VERSION }}_x64_en-US.msi.zip
-            beiboot-desktop_${{ RELEASE_VERSION }}_x64_en-US.msi.zip.sig
+            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi
+            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi.zip
+            beiboot-desktop_${{ github.ref_name }}_x64_en-US.msi.zip.sig
