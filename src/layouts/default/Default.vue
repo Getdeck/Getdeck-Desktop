@@ -59,8 +59,20 @@
        <v-btn v-else>Not logged in</v-btn>
        <v-spacer></v-spacer>
        <v-btn>Engine: Docker</v-btn>
-       <v-btn v-if="appStore.connection.connected">Connected to {{ appStore.connection.clusterName }}</v-btn>
-       <v-btn v-else>Not connected</v-btn>
+       <v-menu v-if="true">
+         <template v-slot:activator="{ props }">
+           <v-btn v-if="appStore.connection.connected" v-bind="props">Connected to {{ appStore.connection.clusterName }}</v-btn>
+           <v-btn v-else>Not connected</v-btn>
+         </template>
+        <v-list bg-color="secondary">
+          <v-list-item @click="clusterDisconnect">
+            <v-list-item-title>Disconnect</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="copyKubeconfig">
+            <v-list-item-title>Copy Kubeconfig</v-list-item-title>
+          </v-list-item>
+        </v-list>
+       </v-menu>
   </v-bottom-navigation>
   </v-app>
 </template>
@@ -70,10 +82,10 @@
   import { Store } from "tauri-plugin-store-api";
   import { useAppStore } from '@/store/app';
 import { useRoute, useRouter } from 'vue-router';
+import { disconnectCluster } from "@/beibootctl";
 
   const store = new Store(".settings.dat");
   const route = useRoute();
-  const router = useRouter();
   const appStore = useAppStore();
 
   store.get("user").then((res) => console.log(res.value))
@@ -95,6 +107,14 @@ import { useRoute, useRouter } from 'vue-router';
   const logout = () => {
     const appStore = useAppStore();
     appStore.logout();
+  }
+  const clusterDisconnect = () => {
+    const appStore = useAppStore();
+    disconnectCluster(appStore.connection.clusterName);
+  }
+  const copyKubeconfig = () => {
+    const appStore = useAppStore();
+    navigator.clipboard.writeText(appStore.connection.kubeconfigPath);
   }
 
 </script>

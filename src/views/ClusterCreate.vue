@@ -82,6 +82,9 @@ const createCluster = () => {
   ClustersService.clusterCreateClustersPost(clusterReq).then((res) => {
     console.log("creation success ", +res);
     router.push("/clusters");
+  })
+  .catch((err) => {
+    console.log("creation failed ", +err);
   });
 };
 
