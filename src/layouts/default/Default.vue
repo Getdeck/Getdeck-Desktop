@@ -58,7 +58,7 @@
     </v-menu>
        <v-btn v-else>Not logged in</v-btn>
        <v-spacer></v-spacer>
-       <v-btn>Engine: Docker</v-btn>
+       <v-btn>{{ appStore.docker ? "Engine: Docker" : "Docker Engine not running" }}</v-btn>
        <v-menu v-if="true">
          <template v-slot:activator="{ props }">
            <v-btn v-if="appStore.connection.connected" v-bind="props">Connected to {{ appStore.connection.clusterName }}</v-btn>

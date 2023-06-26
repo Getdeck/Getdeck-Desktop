@@ -64,3 +64,7 @@ export async function checkRunningConnects() {
   }
   return res
 }
+export async function checkDockerEngine() {
+  let res: string = await invoke("check_docker_engine", {})
+  return res
+}

@@ -28,7 +28,7 @@ fn main() {
     context.config_mut().build.dist_dir = AppUrl::Url(window_url.clone());
 
     builder = builder
-        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server, check_running_connects, establish_heartbeat_connection])
+        .invoke_handler(tauri::generate_handler![connect_beiboot_ghostunnel, disconnect_beiboot_ghostunnel, write_kubeconfig, cleanup, start_server, check_running_connects, establish_heartbeat_connection, check_docker_engine])
         .plugin(tauri_plugin_localhost::Builder::new(port).build())
         .plugin(tauri_plugin_store::Builder::default().build())
         .setup(move |app| {
@@ -148,4 +148,15 @@ async fn establish_heartbeat_connection(cluster_id: &str, token: &str) -> Result
                 Err(format!("{}", why))
             }
         }
+}
+
+#[tauri::command]
+async fn check_docker_engine() -> Result<String, String> {
+    match util::check_docker_engine().await {
+        Ok(res) => Ok(res),
+        Err(why) => {
+            println!("{}", why);
+            Err(format!("{}", why))
+        }
+    }
 }

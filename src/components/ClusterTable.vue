@@ -19,7 +19,7 @@
                 <td>
                     <v-tooltip text="Connect">
                     <template v-slot:activator="{ props }">
-                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.id, cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY'"></v-btn>
+                        <v-btn v-bind="props" class="mt-2 mb-1 mr-2" size="small" variant="flat" color="secondary" icon="mdi-lan-connect" @click="clusterConnect(cluster.id, cluster.name)" v-if="store.connection.clusterName !== cluster.name" :disabled="!!store.connection.clusterName || cluster.state !== 'READY' || !store.docker"></v-btn>
                     </template>
                     </v-tooltip>
                     <v-tooltip text="Disconnect">
