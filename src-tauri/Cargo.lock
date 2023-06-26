@@ -152,7 +152,7 @@ checksum = "604178f6c5c21f02dc555784810edfb88d34ac2c73b2eae109655649ee73ce3d"
 
 [[package]]
 name = "beiboot_desktop"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "bollard",
  "futures",
@@ -3401,7 +3401,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-localhost"
 version = "0.1.0"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#c4d2c8c693a8e0da627f4c845486dbe1b1e32c64"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#a305ad3ddbdf4b7c009394ac3dc4794cfc222f0f"
 dependencies = [
  "http",
  "log",
