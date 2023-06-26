@@ -165,5 +165,5 @@ If you're stuck or just want to have a chat, please join the [Team Blueshoe Disc
 [issues-shield]: https://img.shields.io/github/issues/Getdeck/Getdeck-Desktop.svg?style=for-the-badge
 [issues-url]: https://github.com/Getdeck/Getdeck-Desktop/issues
 [license-shield]: https://img.shields.io/github/license/Getdeck/Getdeck-Desktop.svg?style=for-the-badge
-[license-url]: https://github.com/Getdeck/Getdeck-Desktop/blob/master/LICENSE.txt
+[license-url]: https://github.com/Getdeck/Getdeck-Desktop/blob/main/LICENSE
 [product-screenshot]: screenshot.png 
