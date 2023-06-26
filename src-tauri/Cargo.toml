@@ -1,6 +1,6 @@
 [package]
 name = "beiboot_desktop"
-version = "0.0.2"
+version = "0.0.3"
 description = "Getdeck-Desktop allows to manage Getdeck Kubernetes clusters and connect to them from a local machine."
 authors = ["Tobias Frölich <tobias@blueshoe.io>", "Michael Schilonka <michael@blueshoe.io>"]
 license = "../LICENSE"
