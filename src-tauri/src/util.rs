@@ -2,6 +2,7 @@ use std::fs::{File,create_dir_all};
 use std::io::prelude::*;
 use std::env::temp_dir;
 use std::path::PathBuf;
+use bollard::Docker;
 
 pub fn write_conf_file(beiboot_name: String, content: &str, file_type: &str) -> Result<String, String> {
 
@@ -45,6 +46,14 @@ pub fn cleanup(beiboot_name: String) -> Result<(), String> {
             Err(format!("{}", why))
         }
     }
+}
+
+pub async fn check_docker_engine() -> Result<String, String> {
+    let docker = Docker::connect_with_local_defaults().unwrap();
+   match docker.info().await {
+        Ok(_) => Ok("Docker engine is running".to_string()),
+        Err(why) => Err(format!("{}", why))
+    } 
 }
 
 #[cfg(test)]

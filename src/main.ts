@@ -19,6 +19,7 @@ import { initKeycloak } from '@/auth/keycloak';
 import * as Sentry from "@sentry/vue";
 import { invoke } from '@tauri-apps/api/tauri';
 import { useAppStore } from './store/app';
+import { checkDockerEngine } from './beibootctl';
 
 const app = createApp(App)
 
@@ -51,5 +52,15 @@ app.mount('#app')
 if (process.env.NODE_ENV !== 'debug') {
   document.addEventListener('contextmenu', event => event.preventDefault());
 }
+
+const appStore = useAppStore();
+
+checkDockerEngine().then((res) => {
+  console.log("docker engine: ", res);
+  appStore.docker = true;
+}).catch((err) => {
+  console.log("docker engine: ", err);
+  appStore.docker = false;
+})
 
 initKeycloak();
