@@ -44,6 +44,21 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-snackbar
+      v-model="snackbar"
+    >
+      {{ snackbarInner }}
+
+      <template v-slot:actions>
+        <v-btn
+          color="pink"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
 </template>
 
 <script lang="ts" setup>
@@ -55,6 +70,9 @@ import router from "../router";
 const clusterName = ref("");
 const nodeCount = ref(1);
 const ports = ref(["6443:6443"]);
+
+const snackbar = ref(false);
+const snackbarInner = ref("Cluster creation failed");
 
 const addPortMapping = () => {
   ports.value.push("host");
@@ -80,11 +98,15 @@ const createCluster = () => {
     ],
   };
   ClustersService.clusterCreateClustersPost(clusterReq).then((res) => {
-    console.log("creation success ", +res);
+    console.log("creation success ", res);
+    snackbar.value = true;
+    snackbarInner.value = "Cluster created successfully.";
     router.push("/clusters");
   })
-  .catch((err) => {
-    console.log("creation failed ", +err);
+  .catch(() => {
+    snackbar.value = true;
+    snackbarInner.value = "Cluster creation failed: Limits exceeded.";
+
   });
 };
 
