@@ -17,11 +17,11 @@
       }
     },
     "updater": {
-        "active": true,
-        "endpoints": [
-            "https://raw.githubusercontent.com/Getdeck/Getdeck-Desktop/main/updater.json"
-        ],
-        "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdCRjA3QjMyOTBEQTREMTMKUldRVFRkcVFNbnZ3ZTIrTmJVT1NQL0Ftdi9pRnBQcW5aV1locEdLU2RjY0Z2K1VvMWZqL3pUNHIK"
+      "active": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/Getdeck/Getdeck-Desktop/main/updater.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdCRjA3QjMyOTBEQTREMTMKUldRVFRkcVFNbnZ3ZTIrTmJVT1NQL0Ftdi9pRnBQcW5aV1locEdLU2RjY0Z2K1VvMWZqL3pUNHIK"
     },
     "bundle": {
       "active": true,
@@ -57,11 +57,15 @@
     },
     "security": {
       "csp": null,
-      "dangerousRemoteDomainIpcAccess": [{
-        "domain": "getdeck.dev",
-        "windows": ["Getdeck Desktop"]
-            
-      }]
+      "dangerousRemoteDomainIpcAccess": [
+        {
+          "domain": "getdeck.dev",
+          "windows": [
+            "Getdeck Desktop"
+          ]
+        }
+      ]
     }
-  }
+  },
+  "version": "0.0.4"
 }
