@@ -152,7 +152,7 @@ checksum = "604178f6c5c21f02dc555784810edfb88d34ac2c73b2eae109655649ee73ce3d"
 
 [[package]]
 name = "beiboot_desktop"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "bollard",
  "futures",
