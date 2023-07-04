@@ -3401,7 +3401,7 @@ dependencies = [
 [[package]]
 name = "tauri-plugin-localhost"
 version = "0.1.0"
-source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#c4d2c8c693a8e0da627f4c845486dbe1b1e32c64"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#36b7296746bf8d41f0790d8ecd9b097430750a47"
 dependencies = [
  "http",
  "log",
