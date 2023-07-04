@@ -12,5 +12,5 @@ then
 fi
 
 jq --arg VERSION "$VERSION" '.version = $VERSION' package.json > package.json.tmp && mv package.json.tmp package.json
-jq --arg VERSION "$VERSION" '.version = $VERSION' src-tauri/tauri.conf.json > src-tauri/tauri.conf.json.tmp && mv src-tauri/tauri.conf.json.tmp src-tauri/tauri.conf.json
+jq --arg VERSION "$VERSION" '.package.version = $VERSION' src-tauri/tauri.conf.json > src-tauri/tauri.conf.json.tmp && mv src-tauri/tauri.conf.json.tmp src-tauri/tauri.conf.json
 toml set src-tauri/Cargo.toml package.version "$VERSION" > src-tauri/Cargo.toml.tmp && mv src-tauri/Cargo.toml.tmp src-tauri/Cargo.toml
