@@ -4,6 +4,8 @@
             <tr>
                 <th>Name</th>
                 <th>State</th>
+                <th>Sunset</th>
+                <th>Lifetime/Timeout</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,6 +18,8 @@
                         {{ cluster.state }}
                     </v-chip>
                 </td>
+                <td>{{ getClusterSunset(cluster.sunset) }}</td>
+                <td>{{ cluster.max_lifetime.value }} / {{ cluster.max_session_timeout.value }}</td>
                 <td>
                     <v-tooltip text="Connect">
                     <template v-slot:activator="{ props }">
@@ -92,7 +96,6 @@ const getChipColor = (state: string) => {
 const getClusterList = () => {
     ClustersService.clusterListClustersGet().then((res) => {
         clusterList.value = res.items;
-        console.log(res.items);
     });
 };
 
@@ -137,6 +140,7 @@ const clusterDisconnect = (clusterName: string) => {
       store.connection.clusterName = "";
       store.connection.kubeconfigPath = "";
       store.connection.connected = false;
+      store.connection.clusterId = "";
     }).catch((err) => {
         console.log(err);
     });
@@ -158,7 +162,21 @@ onMounted(() => {
     getClusterList();
     setInterval(() => {
         getClusterList();
-        checkRunningConnects().then((res) => console.log(res));
+        checkRunningConnects();
+        if (store.connection.clusterId) {
+          invoke("establish_heartbeat_connection", {
+            clusterId: store.connection.clusterId,
+            // @ts-ignore
+            token: store.auth.token
+        }).catch(err => console.error(err));
+
+        }
     }, 5000);
 });
+
+const getClusterSunset = (sunset: string) => {
+  if (sunset) {
+    return new Date(`${sunset}Z`).toLocaleTimeString()
+  }
+};
 </script>
