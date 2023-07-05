@@ -30,7 +30,6 @@ export const useAppStore = defineStore('appStore', {
       this.auth.authenticated = false;
       this.auth.user = "";
       if (this.auth.keycloak) {
-        console.log(321);
         this.auth.keycloak.logout({})
       }
     }

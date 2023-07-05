@@ -109,7 +109,7 @@ const clusterConnect = (clusterId: string, clusterName: string) => {
     connectCluster(clusterName, ports, caCrt, clientCrt, clientKey).then(() => {
       ClustersService.clusterKubeconfigClustersClusterIdKubeconfigGet(clusterId).then(async (res) => {
         const kubeconfigPath = await writeKubeconfig(clusterName, res);
-        emit("connected", "Kubeconfig written to " + kubeconfigPath);
+        emit("connected", "Connected successfully. Grab the kubeconfig path from the bottom right menu and paste it into a terminal.");
         invoke("establish_heartbeat_connection", {
           clusterId: clusterId,
           // @ts-ignore

@@ -75,6 +75,7 @@ export async function initKeycloak() {
                 appStore.auth.authenticated = true;
                 appStore.auth.user = profile.firstName || "";
                 appStore.auth.token = keycloak.token || "";
+                appStore.auth.keycloak = keycloak;
                 store.set("user", { value: profile });
                 router.push("/clusters");
             });

@@ -23,7 +23,7 @@
           </v-list>
           <template v-slot:append>
               <v-list>
-                <v-list-item title="Settings" value="settings" :active="route.path === '/settings'">
+                <v-list-item title="Settings" disabled value="settings" :active="route.path === '/settings'">
                 <template v-slot:prepend>
                   <v-icon icon="mdi-cog" :color="route.path === '/settings' ? '#ff165d' : 'iconColor'"></v-icon>
                 </template>
@@ -114,7 +114,8 @@ import { disconnectCluster } from "@/beibootctl";
   }
   const copyKubeconfig = () => {
     const appStore = useAppStore();
-    navigator.clipboard.writeText(appStore.connection.kubeconfigPath);
+    const exportKubeconfig = `export KUBECONFIG=${appStore.connection.kubeconfigPath}`
+    navigator.clipboard.writeText(exportKubeconfig);
   }
 
 </script>

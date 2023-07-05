@@ -24,6 +24,7 @@
             dense
             required
             :rules="nodeCountRules"
+            placeholder="1-3"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -37,7 +38,7 @@
             required
             clearable
             @click:clear="handlePortClear(index)"
-            :rules="portRules"
+            hint="Please enter a valid port mapping, like 8080:8080 or 30812:9999."
           ></v-text-field>
         </v-col>
       </v-row>
@@ -73,7 +74,7 @@ import { ClustersService, ClusterRequest, ClusterParameter } from "beiboot-api-c
 import router from "../router";
 
 const clusterName = ref("");
-const nodeCount = ref(1);
+const nodeCount = ref(undefined);
 const ports = ref(["6443:6443"]);
 
 const snackbar = ref(false);
@@ -109,7 +110,8 @@ const createCluster = () => {
     snackbarInner.value = "Cluster created successfully.";
     router.push("/clusters");
   })
-  .catch(() => {
+  .catch((err) => {
+    console.error(err)
     snackbar.value = true;
     snackbarInner.value = "Cluster creation failed: Limits exceeded.";
 
