@@ -11,7 +11,10 @@
         </thead>
         <tbody v-if="clusterList.length > 0">
             <tr v-for="cluster in clusterList" :key="cluster.name">
-                <td>{{ cluster.name }}</td>
+                <td>
+                  {{ cluster.name }}
+                  <v-progress-circular v-if="getClusterActionInProgress(cluster.id)" indeterminate size="20" color="secondary"></v-progress-circular>
+                </td>
                 <td>
                     <v-chip :color="getChipColor(cluster.state)" class="mt-1">
                         <v-icon start :icon="getIcon(cluster.state)"></v-icon>
@@ -62,6 +65,11 @@ const store = useAppStore();
 const emit = defineEmits(["connected"]);
 
 let clusterList = ref([] as ClusterStateResponse[]);
+const clusterActionInProgress = ref([] as string[]);
+
+const getClusterActionInProgress = (clusterId: string) => {
+  return clusterActionInProgress.value.includes(clusterId)
+}
 
 const getIcon = (state: string) => {
     switch (state) {
@@ -100,6 +108,7 @@ const getClusterList = () => {
 };
 
 const clusterConnect = (clusterId: string, clusterName: string) => {
+  clusterActionInProgress.value.push(clusterId)
   ConnectionsService.ghostunnelConnectionsClusterIdGhostunnelGet(clusterId).then((res) => {
     const caCrt = res.mtls["ca.crt"];
     const clientCrt = res.mtls["client.crt"];
@@ -119,6 +128,7 @@ const clusterConnect = (clusterId: string, clusterName: string) => {
         store.connection.clusterId = clusterId;
         store.connection.kubeconfigPath = kubeconfigPath;
         store.connection.connected = true;
+        clusterActionInProgress.value.splice(clusterActionInProgress.value.indexOf(clusterId), 1)
 
       }).catch((err) => {
         console.error(err);
@@ -147,10 +157,12 @@ const clusterDisconnect = (clusterName: string) => {
 };
 
 const clusterDelete = (clusterName: string, clusterId: string) => {
+    clusterActionInProgress.value.push(clusterId)
     ClustersService.clusterDeleteClustersClusterIdDelete(clusterId).then((res) => {
         console.log("deletion success ", + res);
         clusterDisconnect(clusterName);
         setTimeout(() => {
+            clusterActionInProgress.value.splice(clusterActionInProgress.value.indexOf(clusterId), 1)
             getClusterList();
         }, 2000);
     }).catch((err) => {
