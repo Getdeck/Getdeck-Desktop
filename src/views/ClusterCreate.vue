@@ -126,6 +126,10 @@ const clusterNameRules = [
   (value: string) => {
     if (!value.includes(" ")) return true;
     return "Cluster Name may not contain spaces."
+  },
+  (value: string) => {
+    if (value.length < 63) return true;
+    return "Cluster Name may not be longer than 63 characters."
   }
 ]
 
