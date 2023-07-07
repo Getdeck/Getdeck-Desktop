@@ -13,7 +13,7 @@
             <tr v-for="cluster in clusterList" :key="cluster.name">
                 <td>
                   {{ cluster.name }}
-                  <v-progress-circular v-if="getClusterActionInProgress(cluster.id)" indeterminate size="20" color="secondary"></v-progress-circular>
+                    <v-progress-circular v-if="getClusterActionInProgress(cluster.id, cluster.state)" indeterminate size="20" color="secondary"></v-progress-circular>
                 </td>
                 <td>
                     <v-chip :color="getChipColor(cluster.state)" class="mt-1">
@@ -67,8 +67,12 @@ const emit = defineEmits(["connected"]);
 let clusterList = ref([] as ClusterStateResponse[]);
 const clusterActionInProgress = ref([] as string[]);
 
-const getClusterActionInProgress = (clusterId: string) => {
-  return clusterActionInProgress.value.includes(clusterId)
+const getClusterActionInProgress = (clusterId: string, clusterState: string) => {
+  const clusterIcon = getIcon(clusterState)
+
+  if (clusterActionInProgress.value.includes(clusterId) || clusterIcon  == "mdi-clock") {
+      return true
+  }
 }
 
 const getIcon = (state: string) => {
