@@ -1,18 +1,18 @@
 {
-  "version": "0.1.0",
-  "notes": "Getdeck Desktop 0.1.0 is now available.",
+  "version": "0.1.1",
+  "notes": "Getdeck Desktop 0.1.1 is now available. Changelog: https://github.com/Getdeck/Getdeck-Desktop/releases/tag/0.1.1",
   "platforms": {
     "darwin-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZS8wZDFSell5dWhacGRWNGhVeWVNdndmWjNaWWk0elpWbWpNYVRrMWcvMk1qV1pGZ1p6QnRTZXFlSE5vOSsrNWFiRVU1UjcrUkVDM2Rhckg3MWJXT0FjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4NzMzOTU5CWZpbGU6R2V0ZGVjay1EZXNrdG9wLmFwcC50YXIuZ3oKTUhEbXpkTW12T1pjMktyUzIwVG80dTRsZHVCOEtXUzhIZTgvRkVhdXJGbmRhdVdzQmVqRHd2WmlCdTJXZ0Z4Qmd3SXpqZjJnS1pnZTZHdWZuam90QXc9PQo=",
-      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.0/Getdeck-Desktop.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZS9nZEhEYU5UYytyclNvVi9JSlo1OWhTQmhacTRPZ3NBZkNXdlFZWjZGMEpTaXRYamRqc041QzNWNUFpUHdRZzRtSGI2K3JWRm5uQVF6dlZWWGVVQWdRPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4OTkzNzk3CWZpbGU6R2V0ZGVjay1EZXNrdG9wLmFwcC50YXIuZ3oKQ3FhNzlaSnpjUW5SUUlkYTR1MWFJWDAzakdKcHJwcnREcEUyZUNmMjVBc2RWcVJCTmxaR2dMZE1HM3NIUmxTalYrM2w2S1VjN0tqdGhmek9QSk5WRHc9PQo=",
+      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.1/Getdeck-Desktop.app.tar.gz"
     },
     "linux-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZTRWYWhrV3ZIME0zWjZsdTd6dHlMNFdVcXdxVmZTSndVWnJjTFQyRktnMFF3bHFEQm5ZRGtIaDZSMGthN0ZkRmdocEVKU3A0U29PVHJDall1Qit1UEFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4NzMzNjYyCWZpbGU6Z2V0ZGVjay1kZXNrdG9wXzAuMS4wX2FtZDY0LkFwcEltYWdlLnRhci5negpLQndzVEsvR3N4NS9ySzVCTGVMemVGRHlBTmQwc3hUOXBTYWU1MGxmTTZsaEsvT3pHai9RTnF0dXRNU1lYRHVWWXovT2R0ZGZzSTZjbHhzNWFtK2tCQT09Cg==",
-      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.0/getdeck-desktop_0.1.0_amd64.AppImage.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZTRMMkdiMFJuMHltSDBtdllCWWlGWEROWFdEQmRrK3FGMitveVZNV0xIdWhSekRiQU1hYko5K1MrVDRGU05GZzZYcGovZzFFMHRMMDN5NXhxckRuRlFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4OTkzNTI5CWZpbGU6Z2V0ZGVjay1kZXNrdG9wXzAuMS4xX2FtZDY0LkFwcEltYWdlLnRhci5nego0VHZra2hiRkU4WGREQXNpb2MwV1lRcTU5WkJoTkx6eWZpaFgwSFlsUXNyRDRJd3E4aTNwd0hrb1g4VHY1QkFsUVJjVW5QSFlUN21ZOGY2Sm51TjRBZz09Cg==",
+      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.1/getdeck-desktop_0.1.1_amd64.AppImage.tar.gz"
     },
     "windows-x86_64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZThYbHcvVUJDckc1Y2tmd0d1S2JYTG1nM0xuMVByZDNpSGR6WElyaSsrMGVhWndDQlhxMG1iaGlDZGVLSU9GSHFiczhjODhMWkUrM1dLQi90SFdsS1FjPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4NzMzNzk2CWZpbGU6R2V0ZGVjay1EZXNrdG9wXzAuMS4wX3g2NF9lbi1VUy5tc2kuemlwCllhS0U5dHNVNVZuaUtpdnFCSnRnZFc0SndHWWp2VWwyT21XRy9rUEtVUTVacEgydG9qVFErck03eGMzY2xYU2NTRDVLMTYzZjhzWG5TbVBjQ3NxMEFBPT0K",
-      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.0/getdeck-desktop_0.1.0_x64_en-US.msi.zip"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVFRkcVFNbnZ3ZXpjRi8ySk1IKzNuOHZKbVdBVkZRelc4NGRMM3RKSTlWZ0E4aFpyL01QazJWc0J4WmZLbGg0cjBLVkpFOHZ2bCswSGlvWEFHQUhIVFNQR0hPQTdxTUFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg4OTkzNjU4CWZpbGU6R2V0ZGVjay1EZXNrdG9wXzAuMS4xX3g2NF9lbi1VUy5tc2kuemlwCmlNcTBMa3RNTlA5SnpiMnJJNURMZnRncFJQamdzNDFBSTVFZlBPNlVFL3QvSS9PYzVDVTVqcVVOd0Y4R1RXNyt4VmtMYW14aFNIazV2VUdicldLZkRRPT0K",
+      "url": "https://github.com/Getdeck/Getdeck-Desktop/releases/download/0.1.1/getdeck-desktop_0.1.1_x64_en-US.msi.zip"
     }
   }
 }
