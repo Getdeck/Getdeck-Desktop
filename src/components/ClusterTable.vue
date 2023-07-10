@@ -108,7 +108,7 @@ const getChipColor = (state: string) => {
 const getClusterList = () => {
     ClustersService.clusterListClustersGet().then((res) => {
         clusterList.value = res.items;
-    });
+    }).catch((err) => console.log("Error fetching cluster list."));
 };
 
 const clusterConnect = (clusterId: string, clusterName: string) => {
