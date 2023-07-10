@@ -54,15 +54,22 @@ export async function startOAuthServer() {
 export async function checkRunningConnects() {
   const appStore = useAppStore();
 
-  let res: string[] = await invoke("check_running_connects", {})
-  if (res.length > 0) {
-    appStore.connection.clusterName = res[0]
-    appStore.connection.connected = true;
-  } else {
+  try {
+    let res: string[] = await invoke("check_running_connects", {})
+    if (res.length > 0) {
+      appStore.connection.clusterName = res[0]
+      appStore.connection.connected = true;
+    } else {
+      appStore.connection.clusterName = ""
+      appStore.connection.connected = false;
+    }
+    return res
+  } catch {
     appStore.connection.clusterName = ""
     appStore.connection.connected = false;
+    console.log("no docker client here.")
+    return "Docker Client unresponsive."
   }
-  return res
 }
 export async function checkDockerEngine() {
   let res: string = await invoke("check_docker_engine", {})
