@@ -32,6 +32,8 @@ portpicker = "0.1"
 tokio-tungstenite = { version = "0.19.0", features = ["native-tls"] }
 httparse = "1.8.0"
 reqwest = "0.11.18"
+tokio-test = "0.4.2"
+mockito = "1.1.0"
 
 [features]
 # by default Tauri runs in production mode
