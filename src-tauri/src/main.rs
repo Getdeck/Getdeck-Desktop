@@ -145,7 +145,7 @@ async fn establish_heartbeat_connection(cluster_id: &str, token: &str) -> Result
             Ok(_) => Ok(()),
             Err(why) => {
                 println!("{}", why);
-                Err(format!("{}", why))
+                Err(why.to_string())
             }
         }
 }
