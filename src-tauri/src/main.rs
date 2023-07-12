@@ -141,7 +141,7 @@ fn check_running_connects() -> Result<Vec<String>, String> {
 
 #[tauri::command]
 async fn establish_heartbeat_connection(cluster_id: &str, token: &str) -> Result<(), String> {
-        match heartbeat::establish_heartbeat_connection(cluster_id, token).await {
+        match heartbeat::establish_heartbeat_connection(cluster_id, token, "https://api.getdeck.dev").await {
             Ok(_) => Ok(()),
             Err(why) => {
                 println!("{}", why);
