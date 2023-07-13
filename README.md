@@ -22,6 +22,8 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+![Coveralls branch](https://img.shields.io/coverallsCoverage/github/Getdeck/Getdeck-Desktop?branch=main&style=for-the-badge)
+
 
 
 
