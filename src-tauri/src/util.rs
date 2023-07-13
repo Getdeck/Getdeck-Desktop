@@ -72,4 +72,10 @@ mod tests {
         let cleanup_result = super::cleanup(beiboot_name);
         assert!(cleanup_result.is_ok());
     }
+
+    #[tokio::test]
+    async fn test_check_docker_engine() {
+        let result = super::check_docker_engine().await;
+        assert!(result.is_ok());
+    }
 }
