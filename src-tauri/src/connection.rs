@@ -85,3 +85,21 @@ pub trait Connector {
     fn check_running(&self) -> Result<Vec<String>, ConnectError>;
     fn terminate(&self, name: &str) -> Result<(), ConnectError>;
 }
+
+#[cfg(test)]
+mod connection_tests {
+    #[test]
+    fn test_get_connector_context() {
+        let connector = super::get_connector_context("test", "GhostunnelDocker");
+        assert_eq!("test", connector.name);
+        let other = super::get_connector_context("other", "other");
+        assert_eq!("other", other.name);
+    }
+
+    #[test]
+    fn test_connecterror() {
+        let err = super::ConnectError::new("test");
+        assert_eq!("test", err.details);
+        assert_eq!(format!("{}", err), "test");
+    }
+}

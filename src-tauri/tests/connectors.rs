@@ -60,4 +60,18 @@ mod ghostunnel_docker_tests {
             }
         };
     }
+    #[test]
+    fn test_d_check_not_running() {
+        let connector = get_connector_context("test", "GhostunnelDocker");
+        let _res = match connector.check_running() {
+            Ok(container_summary) => {
+                println!("{:?}", container_summary);
+                0
+            },
+            Err(why) => {
+                println!("{}", why);
+                1
+            }
+        };
+    }
 }
