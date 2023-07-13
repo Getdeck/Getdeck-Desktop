@@ -28,4 +28,17 @@ mod tests {
         assert_eq!("Heartbeat status: 200 OK", result.unwrap())
     }
 
+    #[tokio::test]
+    async fn test_establish_heartbeat_connection_failure() {
+        let mut server = mockito::Server::new();
+        let url = server.url();
+
+        let mock = server.mock("POST", "/clusters/123/heartbeat")
+        .with_status(500)
+        .create();
+
+        let result = establish_heartbeat_connection("123", "token", &url).await;
+        mock.assert();
+        assert_eq!("Heartbeat status: 500 Internal Server Error", result.unwrap())
+    }
 }
