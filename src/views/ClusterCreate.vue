@@ -102,6 +102,10 @@ const createCluster = () => {
         name: ClusterParameter.PORTS,
         value: ports.value,
       },
+      {
+        name: ClusterParameter.LIFETIME,
+        value: "4h",
+      }
     ],
   };
   ClustersService.clusterCreateClustersPost(clusterReq).then((res) => {
